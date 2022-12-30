@@ -1,0 +1,14 @@
+echo "[PRE-COMMIT] Check for Conventional Commits specification (https://www.conventionalcommits.org/)."
+
+# Run commitlint
+npx commitlint --edit
+RESULT=$?
+
+[ $RESULT -ne 0 ] && exit 1
+
+# Run tests
+npm run test
+RESULT=$?
+
+exit $RESULT
+

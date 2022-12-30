@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2021",
+    "outDir": "dist",
+    "rootDirs": ["src", "tests"],
+    "strict": true,
+    "pretty": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "paths": {
+      "@core/*": ["core/*"]
+    }
+  },
+  "exclude": [
+    "coverage",
+    "data",
+    "dist",
+    "node_modules"
+  ],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Recommended"
+}

@@ -1,0 +1,18 @@
+{
+  "bail": true,
+  "verbose": true,
+  "collectCoverageFrom": [
+    "**/*.{js}",
+    "!**/node_modules/**",
+    "!**/vendor/**",
+    "!**/coverage/**"
+  ],
+  "roots": [
+    "<rootDir>/dist/tests"
+  ],
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.js?$",
+  "moduleNameMapper": {
+    "@core/(.*)": "<rootDir>/dist/src/core/$1"
+  },
+  "setupFilesAfterEnv": ["<rootDir>/dist/tests/index.js"]
+}
