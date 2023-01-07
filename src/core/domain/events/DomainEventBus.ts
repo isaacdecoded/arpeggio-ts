@@ -12,12 +12,14 @@ export class DomainEventBus {
       const domainEventHandlers = this.handlersMapper.get(domainEvent.constructor.name) || []
       await Promise.all(
         domainEventHandlers.map(domainEventHandler => {
-          console.info(
-            '[Domain Event Dispatch]:',
-            domainEvent.aggregateRoot.constructor.name, '==>',
-            domainEvent.constructor.name, '==>',
-            domainEventHandler.constructor.name,
-          )
+          if (aggregateRoot.logEvents) {
+            console.info(
+              '[Domain Event Dispatch]:',
+              domainEvent.aggregateRoot.constructor.name, '==>',
+              domainEvent.constructor.name, '==>',
+              domainEventHandler.constructor.name,
+            )
+          }
           domainEventHandler.execute(domainEvent)
         }),
       )

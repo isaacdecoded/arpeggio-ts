@@ -4,11 +4,12 @@
   "description": "Clean Architecture + SOLID principles + DDD approach based software development template",
   "private": false,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isaacdecoded/arpeggio"
+  },
   "author": "Isaac Herrera",
   "main": "dist/src/index.js",
-  "bin": {
-    "arpeggio": "./dist/src/index.js"
-  },
   "scripts": {
     "build": "tsc --build && yarn lint",
     "build:watch": "tsc --build -w",
