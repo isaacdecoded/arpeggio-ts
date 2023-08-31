@@ -1,7 +1,8 @@
-import { AggregateRoot } from '../entities'
+import { ValueObject } from '../entities'
 
 export interface DomainEvent {
-  ocurringTime: Date
-  aggregateRoot: AggregateRoot
-  metadata?: object
+  aggregateId: ValueObject<string>
+  eventName: ValueObject<string>
+  occurringTime: ValueObject<Date>
+  metadata?: ValueObject<object>
 }

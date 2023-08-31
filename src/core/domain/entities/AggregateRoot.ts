@@ -5,10 +5,6 @@ export abstract class AggregateRoot extends Entity {
   private _domainEvents: DomainEvent[] = []
   protected _logEvents = false
 
-  get domainEvents(): DomainEvent[] {
-    return this._domainEvents
-  }
-
   get logEvents() {
     return this._logEvents
   }
@@ -28,6 +24,12 @@ export abstract class AggregateRoot extends Entity {
   protected addDomainEvent(domainEvent: DomainEvent): void {
     this._domainEvents.push(domainEvent)
     this.logEventCreated(domainEvent)
+  }
+
+  protected pullDomainEvents(): DomainEvent[] {
+    const domainEvents = this._domainEvents
+    this._domainEvents = []
+    return domainEvents
   }
 
   protected clearDomainEvents(): void {

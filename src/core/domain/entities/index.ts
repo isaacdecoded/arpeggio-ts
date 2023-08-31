@@ -1,3 +1,3 @@
 export * from './AggregateRoot'
 export * from './Entity'
-export * from './IdentityObject'
+export * from './ValueObject'

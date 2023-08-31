@@ -1,4 +1,4 @@
-type Primitives = string | number | boolean | Date
+type Primitives = string | number | boolean | Date | object
 
 export class ValueObject<T extends Primitives> {
   readonly value: T
