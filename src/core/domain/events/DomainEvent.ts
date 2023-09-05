@@ -1,8 +1,7 @@
-import { ValueObject } from '../entities'
+import { IdentityObject, DateObject, ValueObject } from '../entities'
 
 export interface DomainEvent {
-  aggregateId: ValueObject<string>
+  aggregateId: IdentityObject
+  occurringTime: DateObject
   eventName: ValueObject<string>
-  occurringTime: ValueObject<Date>
-  metadata?: ValueObject<object>
 }

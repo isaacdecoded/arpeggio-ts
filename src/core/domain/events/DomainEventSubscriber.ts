@@ -1,6 +1,7 @@
+import { ValueObject } from '../entities'
 import { DomainEvent } from './DomainEvent'
 
 export interface DomainEventSubscriber {
-  domainEventName: string
+  subscribedTo(): ValueObject<string>[]
   on(domainEvent: DomainEvent): Promise<void>
 }

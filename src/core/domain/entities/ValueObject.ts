@@ -1,6 +1,4 @@
-type Primitives = string | number | boolean | Date | object
-
-export class ValueObject<T extends Primitives> {
+export class ValueObject<T> {
   readonly value: T
 
   constructor(value: T) {

@@ -3,16 +3,22 @@ import { DomainEvent } from '../events'
 
 export abstract class AggregateRoot extends Entity {
   private _domainEvents: DomainEvent[] = []
-  protected _logEvents = false
 
-  get logEvents() {
-    return this._logEvents
+  public pullDomainEvents(): DomainEvent[] {
+    const domainEvents = this._domainEvents
+    this.clearDomainEvents()
+    return domainEvents
+  }
+
+  protected addDomainEvent(domainEvent: DomainEvent): void {
+    this._domainEvents.push(domainEvent)
+    this.logEventCreated(domainEvent)
   }
 
   private logEventCreated(domainEvent: DomainEvent): void {
     const thisClass = Reflect.getPrototypeOf(this)
     const domainEventClass = Reflect.getPrototypeOf(domainEvent)
-    if (this._logEvents && thisClass && domainEventClass) {
+    if (thisClass && domainEventClass) {
       console.info(
         '[Domain Event Created]:',
         thisClass.constructor.name, '==>',
@@ -21,18 +27,7 @@ export abstract class AggregateRoot extends Entity {
     }
   }
 
-  protected addDomainEvent(domainEvent: DomainEvent): void {
-    this._domainEvents.push(domainEvent)
-    this.logEventCreated(domainEvent)
-  }
-
-  protected pullDomainEvents(): DomainEvent[] {
-    const domainEvents = this._domainEvents
-    this._domainEvents = []
-    return domainEvents
-  }
-
-  protected clearDomainEvents(): void {
+  private clearDomainEvents(): void {
     this._domainEvents =[]
   }
 }
