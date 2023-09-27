@@ -13,7 +13,7 @@ export class FindTodosController implements Controller<RequestModel> {
 
   async execute({ name, limit, offset }: RequestModel): Promise<void> {
     strictAssert(typeof limit === 'number')
-    strictAssert(typeof limit === 'number')
+    strictAssert(typeof offset === 'number')
     this.useCase.interact({
       name,
       limit,

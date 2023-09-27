@@ -1,4 +1,4 @@
-import { BaseProps, AggregateRoot } from '@core/domain/entities'
+import { BaseProps, AggregateRoot, DateObject } from '@core/domain/entities'
 import { TodoCreatedDomainEvent } from '../events'
 import { TodoName } from '../value-objects'
 
@@ -30,5 +30,6 @@ export class Todo extends AggregateRoot {
 
   public updateName(name: TodoName) {
     this._name = name
+    this._updatedAt = new DateObject(new Date())
   }
 }
