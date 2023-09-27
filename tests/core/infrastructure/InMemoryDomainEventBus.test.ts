@@ -25,7 +25,7 @@ describe('InMemoryDomainEventBus', () => {
     inMemoryDomainEventBus.addSubscribers([testSubscriber])
     inMemoryDomainEventBus.publish([testDomainEvent])
 
-    expect(testSubscriber.on).toHaveBeenCalled()
+    expect(testSubscriber.on).toHaveBeenCalledWith(testDomainEvent)
   })
 
 })

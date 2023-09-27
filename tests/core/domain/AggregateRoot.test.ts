@@ -1,4 +1,9 @@
-import { AggregateRoot, IdentityObject, DateObject, ValueObject } from '@core/domain/entities'
+import {
+  AggregateRoot,
+  IdentityObject,
+  DateObject,
+  ValueObject,
+} from '@core/domain/entities'
 import { DomainEvent } from '@core/domain/events'
 
 describe('AggregateRoot', () => {

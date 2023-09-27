@@ -9,10 +9,4 @@ export class ValueObject<T> {
     return this.value === o.value
   }
 
-  toString() {
-    if (this.value) {
-      return this.value.toString()
-    }
-    return this.value
-  }
 }
