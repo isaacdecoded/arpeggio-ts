@@ -1,3 +1,3 @@
-export interface Controller<RequestModel> {
-  execute(requestData?: RequestModel): Promise<void>
+export interface Controller<RequestObject> {
+  execute(requestObject?: RequestObject): Promise<void>
 }

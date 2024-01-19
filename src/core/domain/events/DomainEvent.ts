@@ -1,7 +1,7 @@
-import { IdentityObject, DateObject, ValueObject } from '../entities'
+import { AggregateRoot, DateObject, ValueObject } from "../entities"
 
 export interface DomainEvent {
-  aggregateId: IdentityObject
+  aggregateRoot: AggregateRoot
   occurringTime: DateObject
   eventName: ValueObject<string>
 }

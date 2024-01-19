@@ -1,5 +1,5 @@
-import { Entity } from './Entity'
-import { DomainEvent } from '../events'
+import { Entity } from "./Entity"
+import { DomainEvent } from "../events"
 
 export abstract class AggregateRoot extends Entity {
   private _domainEvents: DomainEvent[] = []
@@ -19,15 +19,17 @@ export abstract class AggregateRoot extends Entity {
     const thisClass = Reflect.getPrototypeOf(this)
     const domainEventClass = Reflect.getPrototypeOf(domainEvent)
     if (thisClass && domainEventClass) {
+      // For example purposes only
       console.info(
-        '[Domain Event Created]:',
-        thisClass.constructor.name, '==>',
-        domainEventClass.constructor.name,
+        "[Domain Event Created]:",
+        thisClass.constructor.name,
+        "==>",
+        domainEventClass.constructor.name
       )
     }
   }
 
   private clearDomainEvents(): void {
-    this._domainEvents =[]
+    this._domainEvents = []
   }
 }

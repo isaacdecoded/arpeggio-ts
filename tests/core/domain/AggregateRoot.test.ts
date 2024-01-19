@@ -3,35 +3,37 @@ import {
   IdentityObject,
   DateObject,
   ValueObject,
-} from '@core/domain/entities'
-import { DomainEvent } from '@core/domain/events'
+} from "@core/domain/entities"
+import { DomainEvent } from "@core/domain/events"
 
-describe('AggregateRoot', () => {
-  class TestDomainEvent implements DomainEvent {
-    constructor(
-      public aggregateId = new IdentityObject('id'),
-      public occurringTime = new DateObject(new Date()),
-      public eventName = new ValueObject('TestDomainEvent'),
-    ) {}
-  }
+describe("AggregateRoot", () => {
   class TestAggregateRoot extends AggregateRoot {
     static create() {
-      const id = new IdentityObject('id')
+      const id = new IdentityObject("id")
       const testAggregateRoot = new TestAggregateRoot({ id })
-      testAggregateRoot.addDomainEvent(new TestDomainEvent(testAggregateRoot.id))
+      testAggregateRoot.addDomainEvent(new TestDomainEvent(testAggregateRoot))
       return testAggregateRoot
     }
   }
 
-  it('should create a valid TestAggregateRoot', async () => {
-    const id = new IdentityObject('id')
+  class TestDomainEvent implements DomainEvent {
+    constructor(
+      public aggregateRoot = new TestAggregateRoot({
+        id: new IdentityObject("id"),
+      }),
+      public occurringTime = new DateObject(new Date()),
+      public eventName = new ValueObject("TestDomainEvent")
+    ) {}
+  }
+
+  it("should create a valid TestAggregateRoot", async () => {
+    const id = new IdentityObject("id")
     const aggregateRoot = new TestAggregateRoot({ id })
     expect(aggregateRoot.id.isEqual(id)).toBeTruthy()
   })
 
-  it('should properly manage its DomainEvents', async () => {
+  it("should properly manage its DomainEvents", async () => {
     const aggregateRoot = TestAggregateRoot.create()
     expect(aggregateRoot.pullDomainEvents()).toHaveLength(1)
   })
-
 })

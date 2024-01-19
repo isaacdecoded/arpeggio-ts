@@ -1,8 +1,8 @@
-import { IdentityObject } from './IdentityObject'
-import { DateObject } from './DateObject'
-import { InvalidArgumentError } from '../errors'
+import { IdentityObject } from "./IdentityObject"
+import { DateObject } from "./DateObject"
+import { InvalidArgumentError } from "../errors"
 
-export interface BaseProps {
+export interface EntityProps {
   id: IdentityObject
   createdAt?: DateObject
   updatedAt?: DateObject
@@ -13,7 +13,7 @@ export abstract class Entity {
   private _createdAt: DateObject
   protected _updatedAt?: DateObject
 
-  constructor(props: BaseProps) {
+  constructor(props: EntityProps) {
     this._id = props.id
     this._createdAt = props.createdAt
       ? props.createdAt
@@ -41,7 +41,7 @@ export abstract class Entity {
   private validateDatesRange(updatedAt: DateObject) {
     if (updatedAt.value < this._createdAt.value) {
       throw new InvalidArgumentError(
-        `The updatedAt date should not be previous to createdAt date.`,
+        `The updatedAt date should not be previous to createdAt date.`
       )
     }
   }

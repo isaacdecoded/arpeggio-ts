@@ -8,5 +8,4 @@ export class ValueObject<T> {
   public isEqual(o: ValueObject<T>): boolean {
     return this.value === o.value
   }
-
 }

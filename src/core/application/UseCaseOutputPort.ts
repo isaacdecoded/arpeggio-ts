@@ -1,4 +1,4 @@
-export interface UseCaseOutputPort<OutputData> {
-  success(outputData?: OutputData): Promise<void>
+export interface UseCaseOutputPort<ResponseModel> {
+  success(responseModel?: ResponseModel): Promise<void>
   failure(error: Error): Promise<void>
 }

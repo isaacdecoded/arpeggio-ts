@@ -1,3 +1,3 @@
-export interface UseCaseInputPort<InputData> {
-  interact(inputData?: InputData): Promise<void>
+export interface UseCaseInputPort<RequestModel> {
+  interact(requestModel?: RequestModel): Promise<void>
 }

@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "tslint:recommended"
-  ],
+  "extends": ["tslint:recommended"],
   "rules": {
     "interface-over-type-literal": true,
     "curly": false,
@@ -12,7 +10,6 @@
     "no-empty": false,
     "semicolon": false,
     "quotemark": false,
-    "arrow-parens": false,
-    "no-shadowed-variable": false
+    "arrow-parens": false
   }
 }

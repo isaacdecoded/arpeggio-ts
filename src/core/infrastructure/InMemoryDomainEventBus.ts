@@ -1,33 +1,40 @@
-import { DomainEvent, DomainEventBus, DomainEventSubscriber } from '@core/domain/events'
+import {
+  DomainEvent,
+  DomainEventBus,
+  DomainEventSubscriber,
+} from "@core/domain/events"
 
 export class InMemoryDomainEventBus implements DomainEventBus {
-  private domainEventSubscribers: Map<string, DomainEventSubscriber[]> = new Map()
+  private domainEventSubscribers: Map<string, DomainEventSubscriber[]> =
+    new Map()
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
-    domainEvents.map(domainEvent => {
-      const subscribers = this.domainEventSubscribers.get(domainEvent.eventName.value)
+    for (const domainEvent of domainEvents) {
+      const subscribers = this.domainEventSubscribers.get(
+        domainEvent.eventName.value
+      )
       if (subscribers) {
-        subscribers.map(subscriber => subscriber.on(domainEvent))
+        await Promise.all(
+          subscribers.map((subscriber) => subscriber.on(domainEvent))
+        )
       }
-    })
-    console.info('InMemoryDomainEventBus published.')
+    }
   }
 
   async addSubscribers(subscribers: DomainEventSubscriber[]): Promise<void> {
-    subscribers.forEach(subscriber => {
-      subscriber.subscribedTo().forEach(domainEventName => {
-        const currentSubscriptions = this.domainEventSubscribers.get(domainEventName.value)
-        if (currentSubscriptions) {
-          currentSubscriptions.push(subscriber)
-        } else {
-          this.domainEventSubscribers.set(domainEventName.value, [subscriber])
-        }
-      })
-
+    subscribers.forEach((subscriber) => {
+      const domainEventName = subscriber.subscribedTo()
+      const currentSubscriptions =
+        this.domainEventSubscribers.get(domainEventName)
+      if (currentSubscriptions) {
+        currentSubscriptions.push(subscriber)
+      } else {
+        this.domainEventSubscribers.set(domainEventName, [subscriber])
+      }
     })
   }
 
   async start(): Promise<void> {
-    console.info('InMemoryDomainEventBus started.')
+    console.info("InMemoryDomainEventBus started.")
   }
 }
