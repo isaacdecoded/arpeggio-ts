@@ -23,12 +23,7 @@
       "@backoffice/*": ["backoffice/*"]
     }
   },
-  "exclude": [
-    "coverage",
-    "data",
-    "dist",
-    "node_modules"
-  ],
+  "exclude": ["coverage", "data", "dist", "node_modules"],
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Recommended"
 }

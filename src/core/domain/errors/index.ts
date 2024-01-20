@@ -1,1 +1,1 @@
-export * from './InvalidArgumentError'
+export * from "./InvalidArgumentError"

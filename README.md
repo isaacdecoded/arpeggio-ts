@@ -8,6 +8,7 @@ yarn start
 ```
 
 ### Requirements
+
 - [NodeJS](https://nodejs.org/en)
 - [YARN](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
@@ -22,4 +23,3 @@ yarn test
 - Jest for test
 - Commitlint + ESLint/TSlint + Lint-staged + Husky for Code styling
 - Nodemon for running in watch mode
-

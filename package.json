@@ -1,7 +1,7 @@
 {
   "name": "arpeggio-ts",
   "version": "1.0.0",
-  "description": "Clean Architecture + SOLID principles + DDD approach based software development template",
+  "description": "Coding template for Clean Architecture, CQRS and DDD based projects",
   "private": false,
   "license": "MIT",
   "repository": {

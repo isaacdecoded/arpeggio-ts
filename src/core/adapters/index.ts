@@ -1,2 +1,2 @@
-export * from './Controller'
-export * from './View'
+export * from "./Controller"
+export * from "./View"
