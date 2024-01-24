@@ -1,7 +1,7 @@
 import { UseCaseOutputPort } from "@core/application"
 import { View } from "@core/adapters"
 import { TodoNotUpdatedError } from "../../application/errors"
-import { UpdateTodoOutputData } from "../../application/use-cases"
+import { UpdateTodoResponseModel } from "../../application/use-cases"
 
 export interface UpdateTodoViewModel {
   id?: string
@@ -9,11 +9,11 @@ export interface UpdateTodoViewModel {
 }
 
 export class UpdateTodoPresenter
-  implements UseCaseOutputPort<UpdateTodoOutputData>
+  implements UseCaseOutputPort<UpdateTodoResponseModel>
 {
   constructor(private view: View<UpdateTodoViewModel>) {}
 
-  public async success(outputData: UpdateTodoOutputData): Promise<void> {
+  public async success(outputData: UpdateTodoResponseModel): Promise<void> {
     this.view.transform({ id: outputData.id.value.toString() })
   }
 

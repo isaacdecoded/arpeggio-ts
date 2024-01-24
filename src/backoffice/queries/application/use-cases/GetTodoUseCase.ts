@@ -3,7 +3,7 @@ import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { TodoNotFoundError } from "../errors"
 import { GetTodoRepository } from "../../domain/repositories"
 
-export interface GetTodoInputData {
+export interface GetTodoRequestModel {
   id: string
 }
 
@@ -13,17 +13,17 @@ export interface GetTodoReadModel {
   updatedAt?: Date
 }
 
-export interface GetTodoOutputData {
+export interface GetTodoResponseModel {
   todo: GetTodoReadModel
 }
 
-export class GetTodoUseCase implements UseCaseInputPort<GetTodoInputData> {
+export class GetTodoUseCase implements UseCaseInputPort<GetTodoRequestModel> {
   constructor(
     private todoRepository: GetTodoRepository<GetTodoReadModel>,
-    private outputPort: UseCaseOutputPort<GetTodoOutputData>
+    private outputPort: UseCaseOutputPort<GetTodoResponseModel>
   ) {}
 
-  public async interact({ id }: GetTodoInputData): Promise<void> {
+  public async interact({ id }: GetTodoRequestModel): Promise<void> {
     try {
       const todo = await this.todoRepository.getById(new IdentityObject(id))
       if (!todo) {

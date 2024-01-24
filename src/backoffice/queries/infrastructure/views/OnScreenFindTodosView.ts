@@ -9,7 +9,7 @@ export class OnScreenFindTodosView implements View<FindTodosViewModel> {
     if (viewModel.todos) {
       const info: Record<string, string> = {}
       viewModel.todos.forEach(
-        (todo, idx) => (info[`Todo ${idx + 1}`] = `${todo.id} - ${todo.name}`)
+        (todo, idx) => (info[`Todo ${idx + 1}`] = `${todo.id} | ${todo.name}`)
       )
       console.table({
         OnScreenFindTodosView: "Todo list:",

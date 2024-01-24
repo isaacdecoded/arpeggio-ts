@@ -66,7 +66,6 @@ async function main() {
       new OnScreenNotificationService()
     ),
   ])
-  await inMemoryDomainEventBus.start()
 
   // Prepare Use Cases
   const createTodoPresenter = new CreateTodoPresenter(
@@ -98,12 +97,12 @@ async function main() {
     updateTodoPresenter
   )
 
-  const deleteTodosPresenter = new RemoveTodoPresenter(
+  const removeTodoPresenter = new RemoveTodoPresenter(
     new OnScreenRemoveTodoView()
   )
-  const deleteTodoUseCase = new RemoveTodoUseCase(
+  const removeTodoUseCase = new RemoveTodoUseCase(
     new InMemoryRemoveTodoRepository(),
-    deleteTodosPresenter
+    removeTodoPresenter
   )
 
   // Run controllers
@@ -124,8 +123,8 @@ async function main() {
   const getTodoController = new GetTodoController(getTodoUseCase)
   await getTodoController.execute({ id: defaultId })
 
-  const deleteTodosController = new RemoveTodoController(deleteTodoUseCase)
-  await deleteTodosController.execute({ id: defaultId })
+  const removeTodoController = new RemoveTodoController(removeTodoUseCase)
+  await removeTodoController.execute({ id: defaultId })
 }
 
 main()

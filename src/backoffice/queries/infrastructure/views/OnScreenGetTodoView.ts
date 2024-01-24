@@ -8,7 +8,7 @@ export class OnScreenGetTodoView implements View<GetTodoViewModel> {
     }
     if (viewModel.todo) {
       console.table({
-        OnScreenFindTodosView: "Todo details:",
+        OnScreenGetTodoView: "Todo details:",
         Name: viewModel.todo.name,
         CreatedAt: viewModel.todo.createdAt.toISOString(),
         UpdatedAt: viewModel.todo.updatedAt?.toISOString(),

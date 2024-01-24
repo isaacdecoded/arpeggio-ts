@@ -18,13 +18,19 @@ export class SendNotificationOnTodoCreatedSubscriber
     return TodoCreatedDomainEvent.name
   }
 
-  async on(domainEvent: TodoCreatedDomainEvent): Promise<void> {
-    await this.notificationService.sendNewTodoDetails(
-      {
+  async on({
+    aggregateRootId,
+    todoName,
+    todoCreatedAt,
+  }: TodoCreatedDomainEvent): Promise<void> {
+    await this.notificationService.sendNewTodoDetails({
+      recipientData: {
         address: "arpeggio@arpeggio",
         name: "Arpeggio",
       },
-      domainEvent.aggregateRoot
-    )
+      todoId: aggregateRootId,
+      todoName,
+      todoCreatedAt,
+    })
   }
 }
