@@ -1,29 +1,19 @@
-import {
-  AggregateRoot,
-  IdentityObject,
-  DateObject,
-  ValueObject,
-} from "@core/domain/entities"
+import { AggregateRoot, IdentityObject } from "@core/domain/entities"
 import { DomainEvent } from "@core/domain/events"
 
 describe("AggregateRoot", () => {
+  class TestDomainEvent extends DomainEvent {
+    constructor(id: IdentityObject) {
+      super("TestDomainEvent", id.value)
+    }
+  }
   class TestAggregateRoot extends AggregateRoot {
     static create() {
       const id = new IdentityObject("id")
       const testAggregateRoot = new TestAggregateRoot({ id })
-      testAggregateRoot.addDomainEvent(new TestDomainEvent(testAggregateRoot))
+      testAggregateRoot.addDomainEvent(new TestDomainEvent(id))
       return testAggregateRoot
     }
-  }
-
-  class TestDomainEvent implements DomainEvent {
-    constructor(
-      public aggregateRoot = new TestAggregateRoot({
-        id: new IdentityObject("id"),
-      }),
-      public occurringTime = new DateObject(new Date()),
-      public eventName = new ValueObject("TestDomainEvent")
-    ) {}
   }
 
   it("should create a valid TestAggregateRoot", async () => {

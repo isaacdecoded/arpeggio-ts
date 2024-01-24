@@ -6,30 +6,11 @@ export abstract class AggregateRoot extends Entity {
 
   public pullDomainEvents(): DomainEvent[] {
     const domainEvents = this._domainEvents
-    this.clearDomainEvents()
+    this._domainEvents = []
     return domainEvents
   }
 
   protected addDomainEvent(domainEvent: DomainEvent): void {
     this._domainEvents.push(domainEvent)
-    this.logEventCreated(domainEvent)
-  }
-
-  private logEventCreated(domainEvent: DomainEvent): void {
-    const thisClass = Reflect.getPrototypeOf(this)
-    const domainEventClass = Reflect.getPrototypeOf(domainEvent)
-    if (thisClass && domainEventClass) {
-      // For example purposes only
-      console.info(
-        "[Domain Event Created]:",
-        thisClass.constructor.name,
-        "==>",
-        domainEventClass.constructor.name
-      )
-    }
-  }
-
-  private clearDomainEvents(): void {
-    this._domainEvents = []
   }
 }

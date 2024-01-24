@@ -42,7 +42,7 @@
     "typescript": "^4.3"
   },
   "engines": {
-    "node": ">=16",
+    "node": ">=16 || <=19.3",
     "yarn": ">=1.22"
   },
   "_moduleAliases": {

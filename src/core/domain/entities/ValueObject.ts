@@ -1,4 +1,4 @@
-export class ValueObject<T> {
+export abstract class ValueObject<T> {
   readonly value: T
 
   constructor(value: T) {

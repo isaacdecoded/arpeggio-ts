@@ -1,15 +1,8 @@
-import {
-  IdentityObject,
-  DateObject,
-  ValueObject,
-  AggregateRoot,
-} from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/entities"
 import { DomainEvent, DomainEventSubscriber } from "@core/domain/events"
 import { InMemoryDomainEventBus } from "@core/infrastructure"
 
 describe("InMemoryDomainEventBus", () => {
-  class TestAggregateRoot extends AggregateRoot {}
-
   class TestSubscriber implements DomainEventSubscriber {
     subscribedTo(): string {
       return "TestDomainEvent"
@@ -17,20 +10,16 @@ describe("InMemoryDomainEventBus", () => {
     on = jest.fn()
   }
 
-  class TestDomainEvent implements DomainEvent {
-    constructor(
-      public aggregateRoot = new TestAggregateRoot({
-        id: new IdentityObject("id"),
-      }),
-      public occurringTime = new DateObject(new Date()),
-      public eventName = new ValueObject("TestDomainEvent")
-    ) {}
+  class TestDomainEvent extends DomainEvent {
+    constructor(id: IdentityObject) {
+      super("TestDomainEvent", id.value)
+    }
   }
 
   it("should properly add a TestSubscriber and publish a TestDomainEvent", async () => {
     const inMemoryDomainEventBus = new InMemoryDomainEventBus()
     const testSubscriber = new TestSubscriber()
-    const testDomainEvent = new TestDomainEvent()
+    const testDomainEvent = new TestDomainEvent(new IdentityObject("id"))
     inMemoryDomainEventBus.addSubscribers([testSubscriber])
     inMemoryDomainEventBus.publish([testDomainEvent])
 

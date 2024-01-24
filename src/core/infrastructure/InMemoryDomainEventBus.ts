@@ -10,9 +10,7 @@ export class InMemoryDomainEventBus implements DomainEventBus {
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
     for (const domainEvent of domainEvents) {
-      const subscribers = this.domainEventSubscribers.get(
-        domainEvent.eventName.value
-      )
+      const subscribers = this.domainEventSubscribers.get(domainEvent.name)
       if (subscribers) {
         await Promise.all(
           subscribers.map((subscriber) => subscriber.on(domainEvent))
@@ -32,9 +30,5 @@ export class InMemoryDomainEventBus implements DomainEventBus {
         this.domainEventSubscribers.set(domainEventName, [subscriber])
       }
     })
-  }
-
-  async start(): Promise<void> {
-    console.info("InMemoryDomainEventBus started.")
   }
 }
