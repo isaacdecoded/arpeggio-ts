@@ -1,7 +1,7 @@
 import { UseCaseOutputPort } from "@core/application"
 import { View } from "@core/adapters"
 import { TodoNotRemovedError } from "../../application/errors"
-import { RemoveTodoOutputData } from "../../application/use-cases"
+import { RemoveTodoResponseModel } from "../../application/use-cases"
 
 export interface RemoveTodoViewModel {
   removed?: boolean
@@ -9,11 +9,11 @@ export interface RemoveTodoViewModel {
 }
 
 export class RemoveTodoPresenter
-  implements UseCaseOutputPort<RemoveTodoOutputData>
+  implements UseCaseOutputPort<RemoveTodoResponseModel>
 {
   constructor(private view: View<RemoveTodoViewModel>) {}
 
-  public async success(outputData: RemoveTodoOutputData): Promise<void> {
+  public async success(outputData: RemoveTodoResponseModel): Promise<void> {
     this.view.transform({ removed: outputData.removed })
   }
 

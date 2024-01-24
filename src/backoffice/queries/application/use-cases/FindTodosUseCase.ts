@@ -3,7 +3,7 @@ import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { TodosNotFoundError } from "../errors"
 import { FindTodosRepository } from "../../domain/repositories"
 
-export interface FindTodosInputData {
+export interface FindTodosRequestModel {
   name?: string
   offset: number
   limit: number
@@ -12,29 +12,31 @@ export interface FindTodosInputData {
 export interface FindTodosReadModel {
   id: string
   name: string
-  createdAt?: Date
+  createdAt: Date
 }
 
 export type FindTodosReadCriteria = Criteria<FindTodosReadModel>
 
-export interface FindTodosOutputData {
+export interface FindTodosResponseModel {
   todos: FindTodosReadModel[]
 }
 
-export class FindTodosUseCase implements UseCaseInputPort<FindTodosInputData> {
+export class FindTodosUseCase
+  implements UseCaseInputPort<FindTodosRequestModel>
+{
   constructor(
     private todoRepository: FindTodosRepository<
       FindTodosReadCriteria,
       FindTodosReadModel[]
     >,
-    private outputPort: UseCaseOutputPort<FindTodosOutputData>
+    private outputPort: UseCaseOutputPort<FindTodosResponseModel>
   ) {}
 
   public async interact({
     name,
     offset,
     limit,
-  }: FindTodosInputData): Promise<void> {
+  }: FindTodosRequestModel): Promise<void> {
     try {
       const criteria: FindTodosReadCriteria = {
         filters: [],

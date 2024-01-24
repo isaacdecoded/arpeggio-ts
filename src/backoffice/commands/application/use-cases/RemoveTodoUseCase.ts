@@ -3,23 +3,21 @@ import { RemoveTodoRepository } from "../../domain/aggregates/remove-todo/reposi
 import { TodoNotRemovedError } from "../errors"
 import { IdentityObject } from "@core/domain/entities"
 
-export interface RemoveTodoInputData {
+interface RequestModel {
   id: string
 }
 
-export interface RemoveTodoOutputData {
+export interface RemoveTodoResponseModel {
   removed: boolean
 }
 
-export class RemoveTodoUseCase
-  implements UseCaseInputPort<RemoveTodoInputData>
-{
+export class RemoveTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private todoRepository: RemoveTodoRepository,
-    private outputPort: UseCaseOutputPort<RemoveTodoOutputData>
+    private outputPort: UseCaseOutputPort<RemoveTodoResponseModel>
   ) {}
 
-  public async interact(input: RemoveTodoInputData): Promise<void> {
+  public async interact(input: RequestModel): Promise<void> {
     try {
       const id = new IdentityObject(input.id)
       const todo = await this.todoRepository.getById(id)

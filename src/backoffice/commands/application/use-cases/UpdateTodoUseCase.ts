@@ -4,24 +4,22 @@ import { TodoName } from "../../domain/aggregates/create-todo/value-objects"
 import { TodoNotUpdatedError } from "../errors"
 import { UpdateTodoRepository } from "../../domain/aggregates/update-todo/repositories"
 
-export interface UpdateTodoInputData {
+interface RequestModel {
   id: string
   name: string
 }
 
-export interface UpdateTodoOutputData {
+export interface UpdateTodoResponseModel {
   id: IdentityObject
 }
 
-export class UpdateTodoUseCase
-  implements UseCaseInputPort<UpdateTodoInputData>
-{
+export class UpdateTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private todoRepository: UpdateTodoRepository,
-    private outputPort: UseCaseOutputPort<UpdateTodoOutputData>
+    private outputPort: UseCaseOutputPort<UpdateTodoResponseModel>
   ) {}
 
-  public async interact({ id, name }: UpdateTodoInputData): Promise<void> {
+  public async interact({ id, name }: RequestModel): Promise<void> {
     try {
       const todoId = new IdentityObject(id)
       const todo = await this.todoRepository.getById(todoId)

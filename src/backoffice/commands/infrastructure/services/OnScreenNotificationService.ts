@@ -1,19 +1,20 @@
-import { Todo } from "../../domain/aggregates/create-todo/entities"
-import { NotificationService } from "../../domain/aggregates/create-todo/services"
+import {
+  NotificationService,
+  NotificationRequest,
+} from "../../domain/aggregates/create-todo/services"
 import { EmailRecipientData } from "../../application/subscribers/SendNotificationOnTodoCreatedSubscriber"
 
 export class OnScreenNotificationService
   implements NotificationService<EmailRecipientData>
 {
   public async sendNewTodoDetails(
-    recipientData: EmailRecipientData,
-    todo: Todo
+    request: NotificationRequest<EmailRecipientData>
   ): Promise<void> {
     console.table({
       ConsoleNotificationService: "Sending Todo details:",
-      RecipientAddress: recipientData.address,
-      RecipientName: recipientData.name,
-      Content: `Todo "${todo.name.value}" has been created.`,
+      RecipientAddress: request.recipientData.address,
+      RecipientName: request.recipientData.name,
+      Content: `Todo <${request.todoName}> has been created at <${request.todoCreatedAt}> with ID <${request.todoId}>.`,
     })
   }
 }
