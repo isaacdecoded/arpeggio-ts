@@ -1,6 +1,8 @@
 import { DomainEvent } from "./DomainEvent"
 
-export interface DomainEventSubscriber {
+export interface DomainEventSubscriber<
+  ConcreteDomainEvent extends DomainEvent
+> {
   subscribedTo(): string
-  on(domainEvent: DomainEvent): Promise<void>
+  on(domainEvent: ConcreteDomainEvent): Promise<void>
 }

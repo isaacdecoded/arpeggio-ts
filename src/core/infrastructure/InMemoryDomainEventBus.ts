@@ -5,8 +5,10 @@ import {
 } from "@core/domain/events"
 
 export class InMemoryDomainEventBus implements DomainEventBus {
-  private domainEventSubscribers: Map<string, DomainEventSubscriber[]> =
-    new Map()
+  private domainEventSubscribers: Map<
+    string,
+    DomainEventSubscriber<DomainEvent>[]
+  > = new Map()
 
   async publish(domainEvents: DomainEvent[]): Promise<void> {
     for (const domainEvent of domainEvents) {
@@ -19,7 +21,9 @@ export class InMemoryDomainEventBus implements DomainEventBus {
     }
   }
 
-  async addSubscribers(subscribers: DomainEventSubscriber[]): Promise<void> {
+  async addSubscribers(
+    subscribers: DomainEventSubscriber<DomainEvent>[]
+  ): Promise<void> {
     subscribers.forEach((subscriber) => {
       const domainEventName = subscriber.subscribedTo()
       const currentSubscriptions =

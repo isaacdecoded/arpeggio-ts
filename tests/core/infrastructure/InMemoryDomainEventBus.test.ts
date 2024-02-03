@@ -3,7 +3,7 @@ import { DomainEvent, DomainEventSubscriber } from "@core/domain/events"
 import { InMemoryDomainEventBus } from "@core/infrastructure"
 
 describe("InMemoryDomainEventBus", () => {
-  class TestSubscriber implements DomainEventSubscriber {
+  class TestSubscriber implements DomainEventSubscriber<DomainEvent> {
     subscribedTo(): string {
       return "TestDomainEvent"
     }
