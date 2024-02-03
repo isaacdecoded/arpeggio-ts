@@ -8,7 +8,7 @@ export interface EmailRecipientData {
 }
 
 export class SendNotificationOnTodoCreatedSubscriber
-  implements DomainEventSubscriber
+  implements DomainEventSubscriber<TodoCreatedDomainEvent>
 {
   constructor(
     private notificationService: NotificationService<EmailRecipientData>

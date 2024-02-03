@@ -11,7 +11,7 @@ export class OnScreenNotificationService
     request: NotificationRequest<EmailRecipientData>
   ): Promise<void> {
     console.table({
-      ConsoleNotificationService: "Sending Todo details:",
+      OnScreenNotificationService: "Sending Todo details:",
       RecipientAddress: request.recipientData.address,
       RecipientName: request.recipientData.name,
       Content: `Todo <${request.todoName}> has been created at <${request.todoCreatedAt}> with ID <${request.todoId}>.`,
