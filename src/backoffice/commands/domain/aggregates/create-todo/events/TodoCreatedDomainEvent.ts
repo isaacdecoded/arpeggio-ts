@@ -6,7 +6,7 @@ export class TodoCreatedDomainEvent extends DomainEvent {
   private readonly _todoCreatedAt: Date
 
   constructor(todo: Todo) {
-    super("TodoCreated", todo.id.value)
+    super(TodoCreatedDomainEvent.name, todo.id.value)
     this._todoName = todo.name.value
     this._todoCreatedAt = todo.createdAt.value
   }
