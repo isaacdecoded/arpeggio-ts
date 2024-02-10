@@ -3,6 +3,8 @@ export type FilterOperator =
   | "!="
   | ">"
   | "<"
+  | ">="
+  | "<="
   | "contains"
   | "not_contains"
 
