@@ -8,7 +8,7 @@ export class InMemoryGetPlanRepository
   implements GetPlanRepository<GetPlanReadModel>
 {
   async getById(id: IdentityObject): Promise<Nullable<GetPlanReadModel>> {
-    const planModel = InMemoryRepository.plans.get(id.value)
+    const planModel = InMemoryRepository.readPlans.get(id.value)
     return planModel
       ? {
           name: planModel.name,

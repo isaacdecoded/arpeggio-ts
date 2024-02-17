@@ -46,7 +46,9 @@ export class FindPlansUseCase implements UseCaseInputPort<RequestModel> {
       const plans = await this.planRepository.find(criteria)
       return this.outputPort.success({ plans })
     } catch (e) {
-      return this.outputPort.failure(new PlansNotFoundError(e as string))
+      return this.outputPort.failure(
+        new PlansNotFoundError((e as Error).message)
+      )
     }
   }
 }

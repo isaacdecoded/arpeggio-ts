@@ -4,7 +4,11 @@ import { Nullable } from "@core/domain/repositories"
 import { Plan, Todo } from "../../domain/entities"
 import { PlanName, TodoDescription } from "../../domain/value-objects"
 import { PlanRepository } from "../../domain/repositories"
-import { InMemoryRepository, PlanModel } from "./InMemoryRepository"
+import {
+  InMemoryRepository,
+  PlanWriteModel,
+  TodoWriteModel,
+} from "./InMemoryRepository"
 
 export class InMemoryPlanRepository implements PlanRepository {
   async generateId(): Promise<IdentityObject> {
@@ -12,35 +16,44 @@ export class InMemoryPlanRepository implements PlanRepository {
   }
 
   async getById(id: IdentityObject): Promise<Nullable<Plan>> {
-    const planModel = InMemoryRepository.plans.get(id.value)
+    const planModel = InMemoryRepository.writePlans.get(id.value)
     return planModel ? this.toEntity(id.value, planModel) : planModel
   }
 
   async save(entity: Plan): Promise<void> {
-    InMemoryRepository.plans.set(entity.id.value, this.toModel(entity))
+    InMemoryRepository.writePlans.set(entity.id.value, this.planToModel(entity))
+    const todoModels = entity.todos.map((todo) =>
+      this.todoToModel(entity.id, todo)
+    )
+    InMemoryRepository.writeTodos.set(entity.id.value, todoModels)
+    InMemoryRepository.syncReadPlans(entity)
   }
 
-  private toModel(entity: Plan): PlanModel {
+  private planToModel(entity: Plan): PlanWriteModel {
     return {
-      id: entity.id.value,
       name: entity.name.value,
-      todos: entity.todos.map((todo) => ({
-        id: todo.id.value,
-        description: todo.description.value,
-        status: todo.status,
-        createdAt: todo.createdAt.value,
-        updatedAt: todo.updatedAt?.value,
-      })),
       createdAt: entity.createdAt.value,
       updatedAt: entity.updatedAt?.value,
     }
   }
 
-  private toEntity(id: string | number, model: PlanModel): Plan {
+  private todoToModel(planId: IdentityObject, entity: Todo): TodoWriteModel {
+    return {
+      id: entity.id.value,
+      planId: planId.value,
+      description: entity.description.value,
+      status: entity.status,
+      createdAt: entity.createdAt.value,
+      updatedAt: entity.updatedAt?.value,
+    }
+  }
+
+  private toEntity(id: string | number, model: PlanWriteModel): Plan {
+    const todoModels = InMemoryRepository.writeTodos.get(id) || []
     return Plan.recreate({
       id: new IdentityObject(id),
       name: new PlanName(model.name),
-      todos: model.todos.map(
+      todos: todoModels.map(
         (todo) =>
           new Todo({
             id: new IdentityObject(todo.id),

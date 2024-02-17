@@ -17,8 +17,8 @@ export interface AddTodoResponseModel {
 export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: PlanRepository,
-    private outputPort: UseCaseOutputPort<AddTodoResponseModel>,
-    private domainEventBus: DomainEventBus
+    private domainEventBus: DomainEventBus,
+    private outputPort: UseCaseOutputPort<AddTodoResponseModel>
   ) {}
 
   public async interact({ planId, description }: RequestModel): Promise<void> {
@@ -35,7 +35,9 @@ export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
       await this.domainEventBus.publish(plan.pullDomainEvents())
       return this.outputPort.success({ id })
     } catch (e) {
-      return this.outputPort.failure(new TodoNotAddedError(e as string))
+      return this.outputPort.failure(
+        new TodoNotAddedError((e as Error).message)
+      )
     }
   }
 }
