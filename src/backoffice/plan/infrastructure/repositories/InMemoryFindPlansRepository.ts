@@ -9,9 +9,8 @@ export class InMemoryFindPlansRepository
   async find(
     criteria: Criteria<FindPlansReadModel>
   ): Promise<FindPlansReadModel[]> {
-    // TODO: implement Criteria behaviors
     const plans: FindPlansReadModel[] = []
-    InMemoryRepository.plans.forEach((value, key) => {
+    InMemoryRepository.readPlans.forEach((value, key) => {
       plans.push({
         id: key.toString(),
         name: value.name,
@@ -20,6 +19,22 @@ export class InMemoryFindPlansRepository
         updatedAt: value.updatedAt,
       })
     })
-    return plans
+    return plans.filter((p) => {
+      return criteria.filters.every((f) => {
+        switch (f.operator) {
+          case "=":
+            return p[f.field] === f.value
+
+          case "!=":
+            return p[f.field] !== f.value
+
+          case "contains":
+            return `${p[f.field]}`.includes(f.value.toString())
+
+          case "not_contains":
+            return !`${p[f.field]}`.includes(f.value.toString())
+        }
+      })
+    })
   }
 }

@@ -3,11 +3,7 @@ import {
   AggregateRoot,
   IdentityObject,
 } from "@core/domain/entities"
-import {
-  PlanCreatedDomainEvent,
-  TodoCreatedDomainEvent,
-  PlanCompletedDomainEvent,
-} from "../events"
+import { TodoCreatedDomainEvent, PlanCompletedDomainEvent } from "../events"
 import { Todo, TodoStatuses } from "./Todo"
 import { PlanName, TodoDescription } from "../value-objects"
 
@@ -35,9 +31,7 @@ export class Plan extends AggregateRoot {
   }
 
   public static create(props: Props): Plan {
-    const plan = new Plan(props)
-    plan.addDomainEvent(new PlanCreatedDomainEvent(plan))
-    return plan
+    return new Plan(props)
   }
 
   public static recreate(

@@ -42,7 +42,9 @@ export class GetPlanUseCase implements UseCaseInputPort<GetPlanRequestModel> {
       }
       return this.outputPort.success({ plan })
     } catch (e) {
-      return this.outputPort.failure(new PlanNotFoundError(e as string))
+      return this.outputPort.failure(
+        new PlanNotFoundError((e as Error).message)
+      )
     }
   }
 }

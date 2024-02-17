@@ -1,5 +1,5 @@
 import { IdentityObject } from "@core/domain/entities"
-import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
+import { UseCaseInputPort } from "@core/application"
 import { TodoDescription } from "../../domain/value-objects"
 import { PlanRepository } from "../../domain/repositories"
 import { TodoNotUpdatedError } from "../errors"
@@ -15,10 +15,7 @@ export interface UpdateTodoResponseModel {
 }
 
 export class UpdateTodoUseCase implements UseCaseInputPort<RequestModel> {
-  constructor(
-    private planRepository: PlanRepository,
-    private outputPort: UseCaseOutputPort<UpdateTodoResponseModel>
-  ) {}
+  constructor(private planRepository: PlanRepository) {}
 
   public async interact({
     planId,
@@ -28,16 +25,13 @@ export class UpdateTodoUseCase implements UseCaseInputPort<RequestModel> {
     try {
       const plan = await this.planRepository.getById(new IdentityObject(planId))
       if (!plan) {
-        return this.outputPort.failure(
-          new TodoNotUpdatedError(`Plan with ID <${planId}> doesn't exist`)
-        )
+        throw new TodoNotUpdatedError(`Plan with ID <${planId}> doesn't exist`)
       }
       const id = new IdentityObject(todoId)
       plan.changeTodoDescription(id, new TodoDescription(description))
       await this.planRepository.save(plan)
-      return this.outputPort.success({ id })
     } catch (e) {
-      return this.outputPort.failure(new TodoNotUpdatedError(e as string))
+      throw new TodoNotUpdatedError((e as Error).message)
     }
   }
 }

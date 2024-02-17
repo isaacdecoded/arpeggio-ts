@@ -1,46 +1,7 @@
 import "module-alias/register"
-
 import { InMemoryDomainEventBus } from "@core/infrastructure"
-import {
-  CreatePlanUseCase,
-  AddTodoUseCase,
-  UpdateTodoUseCase,
-  RemoveTodoUseCase,
-  CheckTodoUseCase,
-} from "@backoffice/plan/application/commands"
-import {
-  FindPlansUseCase,
-  GetPlanUseCase,
-} from "@backoffice/plan/application/queries"
-import {
-  CreatePlanController,
-  FindPlansController,
-  GetPlanController,
-  AddTodoController,
-  UpdateTodoController,
-  RemoveTodoController,
-  CheckTodoController,
-} from "@backoffice/plan/adapters/controllers"
-import {
-  CreatePlanPresenter,
-  FindPlansPresenter,
-  GetPlanPresenter,
-  AddTodoPresenter,
-  UpdateTodoPresenter,
-  RemoveTodoPresenter,
-  CheckTodoPresenter,
-} from "@backoffice/plan/adapters/presenters"
-import {
-  InMemoryFindPlansRepository,
-  InMemoryGetPlanRepository,
-  InMemoryPlanRepository,
-} from "@backoffice/plan/infrastructure/repositories"
-
-import {
-  SendNotificationOnTodoCreatedSubscriber,
-  SendNotificationOnPlanCompletedSubscriber,
-} from "@notifications/application/subscribers"
-import { OnScreenNotificationService } from "@notifications/infrastructure/services"
+import { BackofficeContext } from "@backoffice/BackofficeContext"
+import { NotificationsContext } from "@notifications/NotificationsContext"
 
 process.on("uncaughtException", async (err) => {
   console.error("Process uncaughtException:", err)
@@ -52,90 +13,45 @@ process.on("SIGTERM", async () => {
 })
 
 async function main() {
-  let caughtPlanId = ""
-  let caughtTodoId = ""
-
-  // Setup DomainEventBus and Subscribers
+  // Setup DomainEventBus and Bounded Contexts
   const inMemoryDomainEventBus = new InMemoryDomainEventBus()
-  const notificationService = new OnScreenNotificationService()
-  await inMemoryDomainEventBus.addSubscribers([
-    new SendNotificationOnTodoCreatedSubscriber(notificationService),
-    new SendNotificationOnPlanCompletedSubscriber(notificationService),
-  ])
-
-  // Prepare Use Cases
-  const createPlanUseCase = new CreatePlanUseCase(
-    new InMemoryPlanRepository(),
-    new CreatePlanPresenter((id) => (caughtPlanId = id)),
-    inMemoryDomainEventBus
-  )
-
-  const findPlansUseCase = new FindPlansUseCase(
-    new InMemoryFindPlansRepository(),
-    new FindPlansPresenter()
-  )
-
-  const addTodoUseCase = new AddTodoUseCase(
-    new InMemoryPlanRepository(),
-    new AddTodoPresenter((id) => (caughtTodoId = id)),
-    inMemoryDomainEventBus
-  )
-
-  const updateTodoUseCase = new UpdateTodoUseCase(
-    new InMemoryPlanRepository(),
-    new UpdateTodoPresenter()
-  )
-
-  const checkTodoUseCase = new CheckTodoUseCase(
-    new InMemoryPlanRepository(),
-    new CheckTodoPresenter(),
-    inMemoryDomainEventBus
-  )
-
-  const getPlanUseCase = new GetPlanUseCase(
-    new InMemoryGetPlanRepository(),
-    new GetPlanPresenter()
-  )
-
-  const removeTodoUseCase = new RemoveTodoUseCase(
-    new InMemoryPlanRepository(),
-    new RemoveTodoPresenter()
-  )
+  const backofficeContext = new BackofficeContext(inMemoryDomainEventBus)
+  NotificationsContext.registerSubscribers(inMemoryDomainEventBus)
 
   // Run controllers
-  const createPlanController = new CreatePlanController(createPlanUseCase)
-  await createPlanController.execute({ name: "My First Plan" })
-
-  const findPlansController = new FindPlansController(findPlansUseCase)
-  await findPlansController.execute({ limit: 10, offset: 0 })
-
-  const addTodoController = new AddTodoController(addTodoUseCase)
-  await addTodoController.execute({
-    planId: caughtPlanId,
+  await backofficeContext.planAggregate.createPlanController.execute({
+    name: "My First Plan",
+  })
+  await backofficeContext.planAggregate.findPlansController.execute({
+    limit: 10,
+    offset: 0,
+  })
+  await backofficeContext.planAggregate.addTodoController.execute({
+    planId: backofficeContext.planAggregate.caughtPlanId,
     description: "My First Todo",
   })
-
-  const updateTodoController = new UpdateTodoController(updateTodoUseCase)
-  await updateTodoController.execute({
-    planId: caughtPlanId,
-    todoId: caughtTodoId,
+  await backofficeContext.planAggregate.updateTodoController.execute({
+    planId: backofficeContext.planAggregate.caughtPlanId,
+    todoId: backofficeContext.planAggregate.caughtTodoId,
     description: "My First Todo (Updated)",
   })
-
-  const checkTodoController = new CheckTodoController(checkTodoUseCase)
-  await checkTodoController.execute({
-    planId: caughtPlanId,
-    todoId: caughtTodoId,
+  await backofficeContext.planAggregate.checkTodoController.execute({
+    planId: backofficeContext.planAggregate.caughtPlanId,
+    todoId: backofficeContext.planAggregate.caughtTodoId,
   })
-
-  const getTodoController = new GetPlanController(getPlanUseCase)
-  await getTodoController.execute({ id: caughtPlanId })
-
-  const removeTodoController = new RemoveTodoController(removeTodoUseCase)
-  await removeTodoController.execute({
-    planId: caughtPlanId,
-    todoId: caughtTodoId,
+  await backofficeContext.planAggregate.getPlanController.execute({
+    id: backofficeContext.planAggregate.caughtPlanId,
   })
+  try {
+    await backofficeContext.planAggregate.removeTodoController.execute({
+      planId: backofficeContext.planAggregate.caughtPlanId,
+      todoId: backofficeContext.planAggregate.caughtTodoId,
+    })
+  } catch (e) {
+    console.table({
+      RemoveTodoPresenter: (e as Error).message,
+    })
+  }
 }
 
 main()
