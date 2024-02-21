@@ -46,7 +46,6 @@
     "yarn": ">=1.22"
   },
   "_moduleAliases": {
-    "@core": "dist/src/core",
-    "@backoffice": "dist/src/backoffice"
+    "@core": "dist/src/core"
   }
 }

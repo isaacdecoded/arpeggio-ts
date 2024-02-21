@@ -19,8 +19,7 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "paths": {
-      "@core/*": ["core/*"],
-      "@backoffice/*": ["backoffice/*"]
+      "@core/*": ["core/*"]
     }
   },
   "exclude": ["coverage", "data", "dist", "node_modules"],
