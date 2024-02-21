@@ -35,6 +35,9 @@ export abstract class Entity {
     }
   }
 
+  /**
+   * Updates the "updateAt" property with current date.
+   */
   protected update() {
     this._updatedAt = DateObject.now()
   }

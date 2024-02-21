@@ -19,6 +19,9 @@ export interface Sort<T> {
   order?: "asc" | "desc"
 }
 
+/**
+ * Offset-based pagination and filter interface.
+ */
 export interface Criteria<T> {
   filters: Filter<T>[]
   selection?: (keyof T)[]

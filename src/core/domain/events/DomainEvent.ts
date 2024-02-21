@@ -1,11 +1,9 @@
 export abstract class DomainEvent {
-  private _occurringTime: Date
+  private readonly _occurringTime = new Date()
   constructor(
-    protected _name: string,
-    protected _aggregateRootId: string | number
-  ) {
-    this._occurringTime = new Date()
-  }
+    protected readonly _name: string,
+    protected readonly _aggregateRootId: string | number
+  ) {}
 
   get name() {
     return this._name
