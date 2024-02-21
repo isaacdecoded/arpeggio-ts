@@ -2,52 +2,45 @@ import "module-alias/register"
 
 import { InMemoryDomainEventBus } from "@core/infrastructure"
 import {
-  CreateTodoUseCase,
+  CreatePlanUseCase,
+  AddTodoUseCase,
   UpdateTodoUseCase,
   RemoveTodoUseCase,
-} from "@backoffice/commands/application/use-cases"
+  CheckTodoUseCase,
+} from "@backoffice/plan/application/commands"
 import {
-  FindTodosUseCase,
-  GetTodoUseCase,
-} from "@backoffice/queries/application/use-cases"
-import { SendNotificationOnTodoCreatedSubscriber } from "@backoffice/commands/application/subscribers"
+  FindPlansUseCase,
+  GetPlanUseCase,
+} from "@backoffice/plan/application/queries"
 import {
-  CreateTodoController,
+  CreatePlanController,
+  FindPlansController,
+  GetPlanController,
+  AddTodoController,
   UpdateTodoController,
   RemoveTodoController,
-} from "@backoffice/commands/adapters/controllers"
+  CheckTodoController,
+} from "@backoffice/plan/adapters/controllers"
 import {
-  FindTodosController,
-  GetTodoController,
-} from "@backoffice/queries/adapters/controllers"
-import {
-  CreateTodoPresenter,
+  CreatePlanPresenter,
+  FindPlansPresenter,
+  GetPlanPresenter,
+  AddTodoPresenter,
   UpdateTodoPresenter,
   RemoveTodoPresenter,
-} from "@backoffice/commands/adapters/presenters"
+  CheckTodoPresenter,
+} from "@backoffice/plan/adapters/presenters"
 import {
-  FindTodosPresenter,
-  GetTodoPresenter,
-} from "@backoffice/queries/adapters/presenters"
+  InMemoryFindPlansRepository,
+  InMemoryGetPlanRepository,
+  InMemoryPlanRepository,
+} from "@backoffice/plan/infrastructure/repositories"
+
 import {
-  InMemoryCreateTodoRepository,
-  InMemoryRemoveTodoRepository,
-  InMemoryUpdateTodoRepository,
-} from "@backoffice/commands/infrastructure/repositories"
-import { OnScreenNotificationService } from "@backoffice/commands/infrastructure/services"
-import {
-  InMemoryFindTodosRepository,
-  InMemoryGetTodoRepository,
-} from "@backoffice/queries/infrastructure/repositories"
-import {
-  OnScreenCreateTodoView,
-  OnScreenUpdateTodoView,
-  OnScreenRemoveTodoView,
-} from "@backoffice/commands/infrastructure/views"
-import {
-  OnScreenFindTodosView,
-  OnScreenGetTodoView,
-} from "@backoffice/queries/infrastructure/views"
+  SendNotificationOnTodoCreatedSubscriber,
+  SendNotificationOnPlanCompletedSubscriber,
+} from "@notifications/application/subscribers"
+import { OnScreenNotificationService } from "@notifications/infrastructure/services"
 
 process.on("uncaughtException", async (err) => {
   console.error("Process uncaughtException:", err)
@@ -59,72 +52,90 @@ process.on("SIGTERM", async () => {
 })
 
 async function main() {
+  let caughtPlanId = ""
+  let caughtTodoId = ""
+
   // Setup DomainEventBus and Subscribers
   const inMemoryDomainEventBus = new InMemoryDomainEventBus()
+  const notificationService = new OnScreenNotificationService()
   await inMemoryDomainEventBus.addSubscribers([
-    new SendNotificationOnTodoCreatedSubscriber(
-      new OnScreenNotificationService()
-    ),
+    new SendNotificationOnTodoCreatedSubscriber(notificationService),
+    new SendNotificationOnPlanCompletedSubscriber(notificationService),
   ])
 
   // Prepare Use Cases
-  const createTodoPresenter = new CreateTodoPresenter(
-    new OnScreenCreateTodoView()
-  )
-  const createTodoUseCase = new CreateTodoUseCase(
-    new InMemoryCreateTodoRepository(),
-    createTodoPresenter,
+  const createPlanUseCase = new CreatePlanUseCase(
+    new InMemoryPlanRepository(),
+    new CreatePlanPresenter((id) => (caughtPlanId = id)),
     inMemoryDomainEventBus
   )
 
-  const findTodosPresenter = new FindTodosPresenter(new OnScreenFindTodosView())
-  const findTodosUseCase = new FindTodosUseCase(
-    new InMemoryFindTodosRepository(),
-    findTodosPresenter
+  const findPlansUseCase = new FindPlansUseCase(
+    new InMemoryFindPlansRepository(),
+    new FindPlansPresenter()
   )
 
-  const getTodoPresenter = new GetTodoPresenter(new OnScreenGetTodoView())
-  const getTodoUseCase = new GetTodoUseCase(
-    new InMemoryGetTodoRepository(),
-    getTodoPresenter
+  const addTodoUseCase = new AddTodoUseCase(
+    new InMemoryPlanRepository(),
+    new AddTodoPresenter((id) => (caughtTodoId = id)),
+    inMemoryDomainEventBus
   )
 
-  const updateTodoPresenter = new UpdateTodoPresenter(
-    new OnScreenUpdateTodoView()
-  )
   const updateTodoUseCase = new UpdateTodoUseCase(
-    new InMemoryUpdateTodoRepository(),
-    updateTodoPresenter
+    new InMemoryPlanRepository(),
+    new UpdateTodoPresenter()
   )
 
-  const removeTodoPresenter = new RemoveTodoPresenter(
-    new OnScreenRemoveTodoView()
+  const checkTodoUseCase = new CheckTodoUseCase(
+    new InMemoryPlanRepository(),
+    new CheckTodoPresenter(),
+    inMemoryDomainEventBus
   )
+
+  const getPlanUseCase = new GetPlanUseCase(
+    new InMemoryGetPlanRepository(),
+    new GetPlanPresenter()
+  )
+
   const removeTodoUseCase = new RemoveTodoUseCase(
-    new InMemoryRemoveTodoRepository(),
-    removeTodoPresenter
+    new InMemoryPlanRepository(),
+    new RemoveTodoPresenter()
   )
 
   // Run controllers
-  const defaultId = "MyFirstTodoID"
+  const createPlanController = new CreatePlanController(createPlanUseCase)
+  await createPlanController.execute({ name: "My First Plan" })
 
-  const findTodosController = new FindTodosController(findTodosUseCase)
-  await findTodosController.execute({ limit: 10, offset: 0 })
+  const findPlansController = new FindPlansController(findPlansUseCase)
+  await findPlansController.execute({ limit: 10, offset: 0 })
 
-  const createTodoController = new CreateTodoController(createTodoUseCase)
-  await createTodoController.execute({ name: "My First Todo" })
+  const addTodoController = new AddTodoController(addTodoUseCase)
+  await addTodoController.execute({
+    planId: caughtPlanId,
+    description: "My First Todo",
+  })
 
   const updateTodoController = new UpdateTodoController(updateTodoUseCase)
   await updateTodoController.execute({
-    id: defaultId,
-    name: "My First Todo (Updated)",
+    planId: caughtPlanId,
+    todoId: caughtTodoId,
+    description: "My First Todo (Updated)",
   })
 
-  const getTodoController = new GetTodoController(getTodoUseCase)
-  await getTodoController.execute({ id: defaultId })
+  const checkTodoController = new CheckTodoController(checkTodoUseCase)
+  await checkTodoController.execute({
+    planId: caughtPlanId,
+    todoId: caughtTodoId,
+  })
+
+  const getTodoController = new GetPlanController(getPlanUseCase)
+  await getTodoController.execute({ id: caughtPlanId })
 
   const removeTodoController = new RemoveTodoController(removeTodoUseCase)
-  await removeTodoController.execute({ id: defaultId })
+  await removeTodoController.execute({
+    planId: caughtPlanId,
+    todoId: caughtTodoId,
+  })
 }
 
 main()
