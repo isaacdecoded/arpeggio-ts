@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto"
-import { DateObject, IdentityObject } from "@core/domain/entities"
+import { DateObject, IdentityObject } from "@core/domain/models"
 import { Nullable } from "@core/domain/repositories"
 import { Plan, Todo } from "../../domain/entities"
 import { PlanName, TodoDescription } from "../../domain/value-objects"

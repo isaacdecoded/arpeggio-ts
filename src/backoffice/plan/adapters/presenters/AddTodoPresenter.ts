@@ -1,6 +1,6 @@
 import { UseCaseOutputPort } from "@core/application"
-import { TodoNotAddedError } from "../../application/errors"
 import { AddTodoResponseModel } from "../../application/commands"
+import { TodoNotAddedError } from "../../application/errors"
 
 export class AddTodoPresenter
   implements UseCaseOutputPort<AddTodoResponseModel>

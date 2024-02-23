@@ -1,4 +1,4 @@
-import { EntityProps, Entity } from "@core/domain/entities"
+import { EntityProps, Entity } from "@core/domain/models"
 import { TodoDescription } from "../value-objects"
 
 interface Props extends EntityProps {

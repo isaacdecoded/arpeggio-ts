@@ -1,4 +1,4 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { DomainEventBus } from "@core/domain/events"
 import { UseCaseInputPort } from "@core/application"
 import { PlanRepository } from "../../domain/repositories"

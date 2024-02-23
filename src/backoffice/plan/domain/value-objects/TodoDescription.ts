@@ -1,4 +1,4 @@
-import { ValueObject } from "@core/domain/entities"
+import { ValueObject } from "@core/domain/models"
 
 export class TodoDescription extends ValueObject<string> {
   constructor(value: string) {

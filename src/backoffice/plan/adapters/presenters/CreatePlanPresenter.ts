@@ -1,6 +1,6 @@
 import { UseCaseOutputPort } from "@core/application"
-import { TodoNotAddedError } from "../../application/errors"
 import { CreatePlanResponseModel } from "../../application/commands"
+import { TodoNotAddedError } from "../../application/errors"
 
 export class CreatePlanPresenter
   implements UseCaseOutputPort<CreatePlanResponseModel>

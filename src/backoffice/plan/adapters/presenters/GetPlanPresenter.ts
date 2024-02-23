@@ -1,6 +1,6 @@
 import { UseCaseOutputPort } from "@core/application"
-import { PlanNotFoundError } from "../../application/errors"
 import { GetPlanResponseModel } from "../../application/queries"
+import { PlanNotFoundError } from "../../application/errors"
 
 export class GetPlanPresenter
   implements UseCaseOutputPort<GetPlanResponseModel>

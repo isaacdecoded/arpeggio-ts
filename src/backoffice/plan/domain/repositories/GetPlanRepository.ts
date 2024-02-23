@@ -1,4 +1,4 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { Nullable } from "@core/domain/repositories"
 
 export interface GetPlanRepository<ReadModel> {
