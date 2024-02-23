@@ -1,4 +1,4 @@
-import { Entity, IdentityObject, DateObject } from "@core/domain/entities"
+import { Entity, IdentityObject, DateObject } from "@core/domain/models"
 
 describe("Entity", () => {
   class TestEntity extends Entity {}

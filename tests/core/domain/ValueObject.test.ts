@@ -1,4 +1,4 @@
-import { ValueObject } from "@core/domain/entities"
+import { ValueObject } from "@core/domain/models"
 
 describe("ValueObject", () => {
   class TestValueObject extends ValueObject<string> {}

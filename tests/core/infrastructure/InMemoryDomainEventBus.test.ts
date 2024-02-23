@@ -1,4 +1,4 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { DomainEvent, DomainEventSubscriber } from "@core/domain/events"
 import { InMemoryDomainEventBus } from "@core/infrastructure"
 
