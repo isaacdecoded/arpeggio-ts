@@ -1,7 +1,7 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
-import { PlanNotFoundError } from "../errors"
 import { GetPlanRepository } from "../../domain/repositories"
+import { PlanNotFoundError } from "../errors"
 
 export interface GetPlanRequestModel {
   id: string

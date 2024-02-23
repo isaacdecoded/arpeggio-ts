@@ -1,7 +1,7 @@
 import { Criteria } from "@core/domain/repositories"
 import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
-import { PlansNotFoundError } from "../errors"
 import { FindPlansRepository } from "../../domain/repositories"
+import { PlansNotFoundError } from "../errors"
 
 export interface RequestModel {
   name?: string

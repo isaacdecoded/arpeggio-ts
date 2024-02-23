@@ -1,9 +1,9 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { DomainEventBus } from "@core/domain/events"
 import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { TodoDescription } from "../../domain/value-objects"
-import { TodoNotAddedError } from "../errors"
 import { PlanRepository } from "../../domain/repositories"
+import { TodoNotAddedError } from "../errors"
 
 interface RequestModel {
   planId: string

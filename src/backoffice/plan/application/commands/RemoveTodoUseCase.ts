@@ -1,7 +1,7 @@
 import { UseCaseInputPort } from "@core/application"
+import { IdentityObject } from "@core/domain/models"
 import { PlanRepository } from "../../domain/repositories"
 import { TodoNotRemovedError } from "../errors"
-import { IdentityObject } from "@core/domain/entities"
 
 interface RequestModel {
   planId: string

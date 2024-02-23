@@ -1,4 +1,4 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { Nullable } from "@core/domain/repositories"
 import { GetPlanRepository } from "../../domain/repositories"
 import { GetPlanReadModel } from "../../application/queries"

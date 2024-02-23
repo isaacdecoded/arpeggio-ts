@@ -1,8 +1,4 @@
-import {
-  EntityProps,
-  AggregateRoot,
-  IdentityObject,
-} from "@core/domain/entities"
+import { EntityProps, AggregateRoot, IdentityObject } from "@core/domain/models"
 import { TodoCreatedDomainEvent, PlanCompletedDomainEvent } from "../events"
 import { Todo, TodoStatuses } from "./Todo"
 import { PlanName, TodoDescription } from "../value-objects"

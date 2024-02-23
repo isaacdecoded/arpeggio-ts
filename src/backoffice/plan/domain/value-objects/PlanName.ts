@@ -1,4 +1,4 @@
-import { ValueObject } from "@core/domain/entities"
+import { ValueObject } from "@core/domain/models"
 
 export class PlanName extends ValueObject<string> {
   constructor(value: string) {

@@ -1,4 +1,4 @@
-import { IdentityObject } from "@core/domain/entities"
+import { IdentityObject } from "@core/domain/models"
 import { UseCaseInputPort } from "@core/application"
 import { TodoDescription } from "../../domain/value-objects"
 import { PlanRepository } from "../../domain/repositories"
