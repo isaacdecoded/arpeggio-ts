@@ -1,7 +1,8 @@
 import { EntityProps, AggregateRoot, IdentityObject } from "@core/domain/models"
 import { TodoCreatedDomainEvent, PlanCompletedDomainEvent } from "../events"
-import { Todo, TodoStatuses } from "./Todo"
+import { Todo } from "./Todo"
 import { PlanName, TodoDescription } from "../value-objects"
+import { TodoStatus } from "../enums"
 
 interface Props extends EntityProps {
   name: PlanName
@@ -36,21 +37,17 @@ export class Plan extends AggregateRoot {
     return new Plan(props)
   }
 
-  public updateName(name: PlanName) {
+  public changeName(name: PlanName) {
     this._name = name
     this.update()
   }
 
-  public isCompleted(): boolean {
-    return this.todos.every((t) => t.status === TodoStatuses.DONE)
-  }
-
   public addTodo(id: IdentityObject, description: TodoDescription) {
-    this.validateTodoDescription(description)
+    this.validateDescriptionDuplication(description)
     const todo = new Todo({
       id,
       description,
-      status: TodoStatuses.PENDING,
+      status: TodoStatus.PENDING,
     })
     this._todos.push(todo)
     this.addDomainEvent(new TodoCreatedDomainEvent(todo))
@@ -62,7 +59,7 @@ export class Plan extends AggregateRoot {
       throw new Error("This Plan aggregation's lifecycle is completed")
     }
     const [idx, todo] = this.getTodo(todoId)
-    todo.setStatus(TodoStatuses.REMOVED)
+    todo.changeStatus(TodoStatus.REMOVED)
     this._todos.splice(idx, 1, todo)
     this.update()
   }
@@ -71,17 +68,21 @@ export class Plan extends AggregateRoot {
     todoId: IdentityObject,
     description: TodoDescription
   ) {
-    this.validateTodoDescription(description)
+    this.validateDescriptionDuplication(description)
     const [idx, todo] = this.getTodo(todoId)
-    todo.setDescription(description)
+    todo.changeDescription(description)
     this._todos.splice(idx, 1, todo)
   }
 
   public markTodoAsDone(todoId: IdentityObject) {
     const [idx, todo] = this.getTodo(todoId)
-    todo.setStatus(TodoStatuses.DONE)
+    todo.changeStatus(TodoStatus.DONE)
     this._todos.splice(idx, 1, todo)
     this.checkCompleteness()
+  }
+
+  public isCompleted(): boolean {
+    return this.todos.every((t) => t.status === TodoStatus.DONE)
   }
 
   private checkCompleteness() {
@@ -90,7 +91,7 @@ export class Plan extends AggregateRoot {
     }
   }
 
-  private validateTodoDescription(description: TodoDescription) {
+  private validateDescriptionDuplication(description: TodoDescription) {
     const descriptionAlreadyExist = this.todos.some((t) =>
       t.description.isEqual(description)
     )
