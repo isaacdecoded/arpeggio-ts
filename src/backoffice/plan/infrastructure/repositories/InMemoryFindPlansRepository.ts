@@ -7,7 +7,7 @@ export class InMemoryFindPlansRepository
   implements FindPlansRepository<FindPlansReadModel>
 {
   async find(
-    criteria: Criteria<FindPlansReadModel>
+    criteria: Criteria<FindPlansReadModel>,
   ): Promise<FindPlansReadModel[]> {
     const plans: FindPlansReadModel[] = []
     InMemoryRepository.readPlans.forEach((value, key) => {

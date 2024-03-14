@@ -48,33 +48,33 @@ export class PlanAggregate {
     this.getPlanRepository = new InMemoryGetPlanRepository()
     this.planRepository = new InMemoryPlanRepository()
     this.findPlansController = new FindPlansController(
-      new FindPlansUseCase(this.findPlansRepository, new FindPlansPresenter())
+      new FindPlansUseCase(this.findPlansRepository, new FindPlansPresenter()),
     )
     this.getPlanController = new GetPlanController(
-      new GetPlanUseCase(this.getPlanRepository, new GetPlanPresenter())
+      new GetPlanUseCase(this.getPlanRepository, new GetPlanPresenter()),
     )
     this.addTodoController = new AddTodoController(
       new AddTodoUseCase(
         this.planRepository,
         domainEventBus,
-        new AddTodoPresenter((id) => (this.caughtTodoId = id))
-      )
+        new AddTodoPresenter((id) => (this.caughtTodoId = id)),
+      ),
     )
     this.createPlanController = new CreatePlanController(
       new CreatePlanUseCase(
         this.planRepository,
         domainEventBus,
-        new CreatePlanPresenter((id) => (this.caughtPlanId = id))
-      )
+        new CreatePlanPresenter((id) => (this.caughtPlanId = id)),
+      ),
     )
     this.updateTodoController = new UpdateTodoController(
-      new UpdateTodoUseCase(this.planRepository)
+      new UpdateTodoUseCase(this.planRepository),
     )
     this.removeTodoController = new RemoveTodoController(
-      new RemoveTodoUseCase(this.planRepository)
+      new RemoveTodoUseCase(this.planRepository),
     )
     this.checkTodoController = new CheckTodoController(
-      new CheckTodoUseCase(this.planRepository, domainEventBus)
+      new CheckTodoUseCase(this.planRepository, domainEventBus),
     )
   }
 }

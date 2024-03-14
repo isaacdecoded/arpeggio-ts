@@ -32,7 +32,7 @@ export class Plan extends AggregateRoot {
   }
 
   public static recreate(
-    props: Props & Required<Pick<EntityProps, "createdAt">>
+    props: Props & Required<Pick<EntityProps, "createdAt">>,
   ): Plan {
     return new Plan(props)
   }
@@ -66,7 +66,7 @@ export class Plan extends AggregateRoot {
 
   public changeTodoDescription(
     todoId: IdentityObject,
-    description: TodoDescription
+    description: TodoDescription,
   ) {
     this.validateDescriptionDuplication(description)
     const [idx, todo] = this.getTodo(todoId)
@@ -93,11 +93,11 @@ export class Plan extends AggregateRoot {
 
   private validateDescriptionDuplication(description: TodoDescription) {
     const descriptionAlreadyExist = this.todos.some((t) =>
-      t.description.isEqual(description)
+      t.description.isEqual(description),
     )
     if (descriptionAlreadyExist) {
       throw new Error(
-        `Todo with the same description already exist: ${description.value}`
+        `Todo with the same description already exist: ${description.value}`,
       )
     }
   }
@@ -106,7 +106,7 @@ export class Plan extends AggregateRoot {
     const idx = this.todos.findIndex((t) => t.id.isEqual(id))
     if (idx === -1) {
       throw new Error(
-        `Todo not found in current Plan aggregation <${this.id.value}>`
+        `Todo not found in current Plan aggregation <${this.id.value}>`,
       )
     }
     return [idx, this.todos[idx]]

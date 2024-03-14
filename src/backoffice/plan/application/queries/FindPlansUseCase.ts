@@ -24,7 +24,7 @@ export interface FindPlansResponseModel {
 export class FindPlansUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: FindPlansRepository<FindPlansReadModel>,
-    private outputPort: UseCaseOutputPort<FindPlansResponseModel>
+    private outputPort: UseCaseOutputPort<FindPlansResponseModel>,
   ) {}
 
   public async interact({ name, offset, limit }: RequestModel): Promise<void> {
@@ -47,7 +47,7 @@ export class FindPlansUseCase implements UseCaseInputPort<RequestModel> {
       return this.outputPort.success({ plans })
     } catch (e) {
       return this.outputPort.failure(
-        new PlansNotFoundError((e as Error).message)
+        new PlansNotFoundError((e as Error).message),
       )
     }
   }

@@ -23,7 +23,7 @@ export class InMemoryPlanRepository implements PlanRepository {
   async save(entity: Plan): Promise<void> {
     InMemoryRepository.writePlans.set(entity.id.value, this.planToModel(entity))
     const todoModels = entity.todos.map((todo) =>
-      this.todoToModel(entity.id, todo)
+      this.todoToModel(entity.id, todo),
     )
     InMemoryRepository.writeTodos.set(entity.id.value, todoModels)
     InMemoryRepository.syncReadPlans(entity)
@@ -63,7 +63,7 @@ export class InMemoryPlanRepository implements PlanRepository {
             updatedAt: todo.updatedAt
               ? new DateObject(todo.updatedAt)
               : undefined,
-          })
+          }),
       ),
       createdAt: new DateObject(model.createdAt),
       updatedAt: model.updatedAt ? new DateObject(model.updatedAt) : undefined,

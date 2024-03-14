@@ -9,9 +9,8 @@ export class FindPlansPresenter
     const info: Record<string, string> = {}
     responseModel.plans.forEach(
       (plan, idx) =>
-        (info[
-          `Plan ${idx + 1}`
-        ] = `${plan.id} | ${plan.name} | ${plan.todoCount} todos`)
+        (info[`Plan ${idx + 1}`] =
+          `${plan.id} | ${plan.name} | ${plan.todoCount} todos`),
     )
     console.table({
       FindPlansPresenter: "Plan list:",

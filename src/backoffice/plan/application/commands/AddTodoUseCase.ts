@@ -18,7 +18,7 @@ export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: PlanRepository,
     private domainEventBus: DomainEventBus,
-    private outputPort: UseCaseOutputPort<AddTodoResponseModel>
+    private outputPort: UseCaseOutputPort<AddTodoResponseModel>,
   ) {}
 
   public async interact({ planId, description }: RequestModel): Promise<void> {
@@ -26,7 +26,7 @@ export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
       const plan = await this.planRepository.getById(new IdentityObject(planId))
       if (!plan) {
         return this.outputPort.failure(
-          new TodoNotAddedError(`Plan with ID <${planId}> doesn't exist`)
+          new TodoNotAddedError(`Plan with ID <${planId}> doesn't exist`),
         )
       }
       const id = await this.planRepository.generateId()
@@ -36,7 +36,7 @@ export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
       return this.outputPort.success({ id })
     } catch (e) {
       return this.outputPort.failure(
-        new TodoNotAddedError((e as Error).message)
+        new TodoNotAddedError((e as Error).message),
       )
     }
   }
