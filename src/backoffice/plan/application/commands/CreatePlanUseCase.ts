@@ -18,7 +18,7 @@ export class CreatePlanUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: PlanRepository,
     private domainEventBus: DomainEventBus,
-    private outputPort: UseCaseOutputPort<CreatePlanResponseModel>
+    private outputPort: UseCaseOutputPort<CreatePlanResponseModel>,
   ) {}
 
   public async interact({ name }: RequestModel): Promise<void> {
@@ -33,7 +33,7 @@ export class CreatePlanUseCase implements UseCaseInputPort<RequestModel> {
       return this.outputPort.success({ id })
     } catch (e) {
       return this.outputPort.failure(
-        new TodoNotAddedError((e as Error).message)
+        new TodoNotAddedError((e as Error).message),
       )
     }
   }

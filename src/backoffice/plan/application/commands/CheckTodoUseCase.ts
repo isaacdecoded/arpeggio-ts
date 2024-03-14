@@ -16,7 +16,7 @@ export interface CheckTodoResponseModel {
 export class CheckTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: PlanRepository,
-    private domainEventBus: DomainEventBus
+    private domainEventBus: DomainEventBus,
   ) {}
 
   public async interact({ planId, todoId }: RequestModel): Promise<void> {

@@ -29,7 +29,7 @@ export interface GetPlanResponseModel {
 export class GetPlanUseCase implements UseCaseInputPort<GetPlanRequestModel> {
   constructor(
     private planRepository: GetPlanRepository<GetPlanReadModel>,
-    private outputPort: UseCaseOutputPort<GetPlanResponseModel>
+    private outputPort: UseCaseOutputPort<GetPlanResponseModel>,
   ) {}
 
   public async interact({ id }: GetPlanRequestModel): Promise<void> {
@@ -37,13 +37,13 @@ export class GetPlanUseCase implements UseCaseInputPort<GetPlanRequestModel> {
       const plan = await this.planRepository.getById(new IdentityObject(id))
       if (!plan) {
         return this.outputPort.failure(
-          new PlanNotFoundError(`Plan with ID <${id}> doesn't exist`)
+          new PlanNotFoundError(`Plan with ID <${id}> doesn't exist`),
         )
       }
       return this.outputPort.success({ plan })
     } catch (e) {
       return this.outputPort.failure(
-        new PlanNotFoundError((e as Error).message)
+        new PlanNotFoundError((e as Error).message),
       )
     }
   }

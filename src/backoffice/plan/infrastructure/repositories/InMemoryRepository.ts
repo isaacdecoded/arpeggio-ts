@@ -1,10 +1,11 @@
-import { Plan, TodoStatuses } from "../../domain/entities"
+import { Plan } from "../../domain/entities"
+import { TodoStatus } from "../../domain/enums"
 
 export interface TodoWriteModel {
   id: string | number
   planId: string | number
   description: string
-  status: TodoStatuses
+  status: TodoStatus
   createdAt: Date
   updatedAt?: Date
 }
@@ -18,7 +19,7 @@ export interface PlanWriteModel {
 interface TodoReadModel {
   id: string | number
   description: string
-  status: TodoStatuses
+  status: TodoStatus
   createdAt: Date
   updatedAt?: Date
 }

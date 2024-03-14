@@ -6,7 +6,7 @@ import {
 
 export class OnScreenNotificationService implements NotificationService {
   public async notifyPlanCompleted(
-    request: PlanCompletedNotificationRequest
+    request: PlanCompletedNotificationRequest,
   ): Promise<void> {
     console.table({
       OnScreenNotificationService: "[Notification] PLAN COMPLETED:",
@@ -17,7 +17,7 @@ export class OnScreenNotificationService implements NotificationService {
   }
 
   public async notifyTodoAdded(
-    request: TodoAddedNotificationRequest
+    request: TodoAddedNotificationRequest,
   ): Promise<void> {
     console.table({
       OnScreenNotificationService: "[Notification] TODO ADDED:",
