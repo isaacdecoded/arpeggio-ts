@@ -1,11 +1,11 @@
 import { Specification } from "./Specification"
 
 export class AndSpecification<
-  EntityOrValueObject
+  EntityOrValueObject,
 > extends Specification<EntityOrValueObject> {
   constructor(
     private spec1: Specification<EntityOrValueObject>,
-    private spec2: Specification<EntityOrValueObject>
+    private spec2: Specification<EntityOrValueObject>,
   ) {
     super()
   }

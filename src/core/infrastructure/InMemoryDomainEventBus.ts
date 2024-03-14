@@ -15,14 +15,14 @@ export class InMemoryDomainEventBus implements DomainEventBus {
       const subscribers = this.domainEventSubscribers.get(domainEvent.name)
       if (subscribers) {
         await Promise.all(
-          subscribers.map((subscriber) => subscriber.on(domainEvent))
+          subscribers.map((subscriber) => subscriber.on(domainEvent)),
         )
       }
     }
   }
 
   async addSubscribers(
-    subscribers: DomainEventSubscriber<DomainEvent>[]
+    subscribers: DomainEventSubscriber<DomainEvent>[],
   ): Promise<void> {
     subscribers.forEach((subscriber) => {
       const domainEventName = subscriber.subscribedTo()

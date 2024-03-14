@@ -45,7 +45,7 @@ export abstract class Entity {
   private validateDatesRange(updatedAt: DateObject) {
     if (updatedAt.value < this._createdAt.value) {
       throw new Error(
-        `The updatedAt date should not be previous to createdAt date.`
+        `The updatedAt date should not be previous to createdAt date.`,
       )
     }
   }

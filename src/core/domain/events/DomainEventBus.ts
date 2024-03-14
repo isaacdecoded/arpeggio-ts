@@ -4,6 +4,6 @@ import { DomainEvent } from "./DomainEvent"
 export interface DomainEventBus {
   publish(domainEvents: DomainEvent[]): Promise<void>
   addSubscribers(
-    subscribers: DomainEventSubscriber<DomainEvent>[]
+    subscribers: DomainEventSubscriber<DomainEvent>[],
   ): Promise<void>
 }

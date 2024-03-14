@@ -1,7 +1,7 @@
 import { Specification } from "./Specification"
 
 export class NotSpecification<
-  EntityOrValueObject
+  EntityOrValueObject,
 > extends Specification<EntityOrValueObject> {
   constructor(private spec: Specification<EntityOrValueObject>) {
     super()
