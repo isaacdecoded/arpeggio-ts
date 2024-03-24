@@ -1,13 +1,18 @@
-import { EntityProps, Entity } from "@core/domain/models"
+import {
+  EntityProps,
+  Entity,
+  IdentityObject,
+  DateObject,
+} from "@core/domain/models"
 import { TodoDescription } from "../value-objects"
 import { TodoStatus } from "../enums"
 
-interface Props extends EntityProps {
+interface Props extends EntityProps<IdentityObject> {
   description: TodoDescription
   status: TodoStatus
 }
 
-export class Todo extends Entity {
+export class Todo extends Entity<IdentityObject> {
   private _description: TodoDescription
   private _status: TodoStatus
 
@@ -27,11 +32,11 @@ export class Todo extends Entity {
 
   public changeDescription(description: TodoDescription) {
     this._description = description
-    this.update()
+    this.update(DateObject.now())
   }
 
   public changeStatus(status: TodoStatus) {
     this._status = status
-    this.update()
+    this.update(DateObject.now())
   }
 }

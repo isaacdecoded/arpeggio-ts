@@ -1,5 +1,6 @@
 export * from "./PlansNotFoundError"
 export * from "./PlanNotFoundError"
+export * from "./PlanNotCreatedError"
 export * from "./TodoNotAddedError"
 export * from "./TodoNotUpdatedError"
 export * from "./TodoNotRemovedError"

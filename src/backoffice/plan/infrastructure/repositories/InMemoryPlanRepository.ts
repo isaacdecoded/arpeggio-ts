@@ -17,23 +17,21 @@ export class InMemoryPlanRepository implements PlanRepository {
 
   async getById(id: IdentityObject): Promise<Nullable<Plan>> {
     const planModel = InMemoryRepository.writePlans.get(id.value)
-    return planModel ? this.toEntity(id.value, planModel) : planModel
+    return planModel ? this.planModelToEntity(id.value, planModel) : planModel
   }
 
-  async save(entity: Plan): Promise<void> {
-    InMemoryRepository.writePlans.set(entity.id.value, this.planToModel(entity))
-    const todoModels = entity.todos.map((todo) =>
-      this.todoToModel(entity.id, todo),
-    )
-    InMemoryRepository.writeTodos.set(entity.id.value, todoModels)
-    InMemoryRepository.syncReadPlans(entity)
+  async save(plan: Plan): Promise<void> {
+    InMemoryRepository.writePlans.set(plan.id.value, this.planToModel(plan))
+    const todoModels = plan.todos.map((todo) => this.todoToModel(plan.id, todo))
+    InMemoryRepository.writeTodos.set(plan.id.value, todoModels)
+    InMemoryRepository.syncReadPlans(plan)
   }
 
-  private planToModel(entity: Plan): PlanWriteModel {
+  private planToModel(plan: Plan): PlanWriteModel {
     return {
-      name: entity.name.value,
-      createdAt: entity.createdAt.value,
-      updatedAt: entity.updatedAt?.value,
+      name: plan.name.value,
+      createdAt: plan.createdAt.value,
+      updatedAt: plan.updatedAt?.value,
     }
   }
 
@@ -48,7 +46,7 @@ export class InMemoryPlanRepository implements PlanRepository {
     }
   }
 
-  private toEntity(id: string | number, model: PlanWriteModel): Plan {
+  private planModelToEntity(id: string, model: PlanWriteModel): Plan {
     const todoModels = InMemoryRepository.writeTodos.get(id) || []
     return Plan.recreate({
       id: new IdentityObject(id),

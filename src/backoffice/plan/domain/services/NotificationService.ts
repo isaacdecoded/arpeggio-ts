@@ -1,3 +1,9 @@
+export interface PlanCreatedNotificationRequest {
+  planId: string | number
+  planName: string
+  planCreatedAt: Date
+}
+
 export interface PlanCompletedNotificationRequest {
   planId: string | number
   planName: string
@@ -11,6 +17,7 @@ export interface TodoAddedNotificationRequest {
 }
 
 export interface NotificationService {
+  notifyPlanCreated(request: PlanCreatedNotificationRequest): Promise<void>
   notifyPlanCompleted(request: PlanCompletedNotificationRequest): Promise<void>
   notifyTodoAdded(request: TodoAddedNotificationRequest): Promise<void>
 }

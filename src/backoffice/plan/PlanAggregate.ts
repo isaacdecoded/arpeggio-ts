@@ -23,10 +23,16 @@ import {
 } from "./application/commands"
 import { FindPlansUseCase, GetPlanUseCase } from "./application/queries"
 import {
+  SendNotificationOnPlanCreatedSubscriber,
+  SendNotificationOnPlanCompletedSubscriber,
+  SendNotificationOnTodoAddedSubscriber,
+} from "./application/subscribers"
+import {
   InMemoryFindPlansRepository,
   InMemoryGetPlanRepository,
   InMemoryPlanRepository,
 } from "./infrastructure/repositories"
+import { OnScreenNotificationService } from "./infrastructure/services"
 
 export class PlanAggregate {
   public readonly createPlanController: CreatePlanController
@@ -39,14 +45,12 @@ export class PlanAggregate {
   public caughtPlanId = ""
   public caughtTodoId = ""
 
-  private readonly findPlansRepository: InMemoryFindPlansRepository
-  private readonly getPlanRepository: InMemoryGetPlanRepository
-  private readonly planRepository: InMemoryPlanRepository
+  private readonly findPlansRepository = new InMemoryFindPlansRepository()
+  private readonly getPlanRepository = new InMemoryGetPlanRepository()
+  private readonly planRepository = new InMemoryPlanRepository()
+  private readonly notificationService = new OnScreenNotificationService()
 
   constructor(domainEventBus: DomainEventBus) {
-    this.findPlansRepository = new InMemoryFindPlansRepository()
-    this.getPlanRepository = new InMemoryGetPlanRepository()
-    this.planRepository = new InMemoryPlanRepository()
     this.findPlansController = new FindPlansController(
       new FindPlansUseCase(this.findPlansRepository, new FindPlansPresenter()),
     )
@@ -76,5 +80,11 @@ export class PlanAggregate {
     this.checkTodoController = new CheckTodoController(
       new CheckTodoUseCase(this.planRepository, domainEventBus),
     )
+
+    domainEventBus.addSubscribers([
+      new SendNotificationOnPlanCreatedSubscriber(this.notificationService),
+      new SendNotificationOnPlanCompletedSubscriber(this.notificationService),
+      new SendNotificationOnTodoAddedSubscriber(this.notificationService),
+    ])
   }
 }
