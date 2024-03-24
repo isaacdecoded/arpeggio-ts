@@ -1,4 +1,4 @@
-import { AggregateRoot, IdentityObject } from "@core/domain/models"
+import { AggregateRoot, IdentityObject, DateObject } from "@core/domain/models"
 import { DomainEvent } from "@core/domain/events"
 
 describe("AggregateRoot", () => {
@@ -7,10 +7,13 @@ describe("AggregateRoot", () => {
       super("TestDomainEvent", id.value)
     }
   }
-  class TestAggregateRoot extends AggregateRoot {
+  class TestAggregateRoot extends AggregateRoot<IdentityObject> {
     static create() {
       const id = new IdentityObject("id")
-      const testAggregateRoot = new TestAggregateRoot({ id })
+      const testAggregateRoot = new TestAggregateRoot({
+        id,
+        createdAt: DateObject.now(),
+      })
       testAggregateRoot.addDomainEvent(new TestDomainEvent(id))
       return testAggregateRoot
     }
@@ -18,7 +21,10 @@ describe("AggregateRoot", () => {
 
   it("should create a valid TestAggregateRoot", async () => {
     const id = new IdentityObject("id")
-    const aggregateRoot = new TestAggregateRoot({ id })
+    const aggregateRoot = new TestAggregateRoot({
+      id,
+      createdAt: DateObject.now(),
+    })
     expect(aggregateRoot.id.isEqual(id)).toBeTruthy()
   })
 

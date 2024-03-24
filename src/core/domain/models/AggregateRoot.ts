@@ -1,7 +1,10 @@
-import { Entity } from "./Entity"
 import { DomainEvent } from "../events"
+import { Entity } from "./Entity"
+import { ValueObject } from "./ValueObject"
 
-export abstract class AggregateRoot extends Entity {
+export abstract class AggregateRoot<
+  Id extends ValueObject<string>,
+> extends Entity<Id> {
   private _domainEvents: DomainEvent[] = []
 
   public pullDomainEvents(): DomainEvent[] {

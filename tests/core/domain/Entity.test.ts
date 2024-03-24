@@ -1,11 +1,11 @@
 import { Entity, IdentityObject, DateObject } from "@core/domain/models"
 
 describe("Entity", () => {
-  class TestEntity extends Entity {}
+  class TestEntity extends Entity<IdentityObject> {}
 
   it("should create a TestEntity with createdAt date", async () => {
     const id = new IdentityObject("id")
-    const entity = new TestEntity({ id })
+    const entity = new TestEntity({ id, createdAt: DateObject.now() })
 
     expect(entity.id.isEqual(id)).toBeTruthy()
     expect(entity.createdAt).toBeInstanceOf(DateObject)

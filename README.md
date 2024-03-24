@@ -9,7 +9,7 @@ This is the Arpeggio coding template based on [TypeScript](https://www.typescrip
 
 ### Scripts
 
-You can start using it by executing the commonly known NodeJS scripts commands:
+You can run it by executing the commonly known NodeJS scripts commands:
 
 ```bash
 yarn install
