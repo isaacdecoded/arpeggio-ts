@@ -9,10 +9,6 @@ interface RequestModel {
   todoId: string
 }
 
-export interface CheckTodoResponseModel {
-  id: IdentityObject
-}
-
 export class CheckTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: PlanRepository,

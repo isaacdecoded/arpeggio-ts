@@ -1,7 +1,6 @@
 import "module-alias/register"
 import { InMemoryDomainEventBus } from "@core/infrastructure"
 import { BackofficeContext } from "@backoffice/BackofficeContext"
-import { NotificationsContext } from "@notifications/NotificationsContext"
 
 process.on("uncaughtException", async (err) => {
   console.error("Process uncaughtException:", err)
@@ -16,7 +15,6 @@ async function main() {
   // Setup DomainEventBus and Bounded Contexts
   const inMemoryDomainEventBus = new InMemoryDomainEventBus()
   const backofficeContext = new BackofficeContext(inMemoryDomainEventBus)
-  NotificationsContext.registerSubscribers(inMemoryDomainEventBus)
 
   // Run controllers
   await backofficeContext.planAggregate.createPlanController.execute({

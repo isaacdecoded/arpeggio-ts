@@ -4,7 +4,7 @@ import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { Plan } from "../../domain/entities"
 import { PlanName } from "../../domain/value-objects"
 import { PlanRepository } from "../../domain/repositories"
-import { TodoNotAddedError } from "../errors"
+import { PlanNotCreatedError } from "../errors"
 
 interface RequestModel {
   name: string
@@ -33,7 +33,7 @@ export class CreatePlanUseCase implements UseCaseInputPort<RequestModel> {
       return this.outputPort.success({ id })
     } catch (e) {
       return this.outputPort.failure(
-        new TodoNotAddedError((e as Error).message),
+        new PlanNotCreatedError((e as Error).message),
       )
     }
   }

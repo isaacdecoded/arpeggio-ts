@@ -2,8 +2,8 @@ import { Plan } from "../../domain/entities"
 import { TodoStatus } from "../../domain/enums"
 
 export interface TodoWriteModel {
-  id: string | number
-  planId: string | number
+  id: string
+  planId: string
   description: string
   status: TodoStatus
   createdAt: Date
@@ -17,7 +17,7 @@ export interface PlanWriteModel {
 }
 
 interface TodoReadModel {
-  id: string | number
+  id: string
   description: string
   status: TodoStatus
   createdAt: Date
@@ -25,7 +25,7 @@ interface TodoReadModel {
 }
 
 export interface PlanReadModel {
-  id: string | number
+  id: string
   name: string
   todos: TodoReadModel[]
   createdAt: Date
@@ -33,9 +33,9 @@ export interface PlanReadModel {
 }
 
 export class InMemoryRepository {
-  public static readPlans: Map<string | number, PlanReadModel> = new Map()
-  public static writePlans: Map<string | number, PlanWriteModel> = new Map()
-  public static writeTodos: Map<string | number, TodoWriteModel[]> = new Map()
+  public static readPlans: Map<string, PlanReadModel> = new Map()
+  public static writePlans: Map<string, PlanWriteModel> = new Map()
+  public static writeTodos: Map<string, TodoWriteModel[]> = new Map()
 
   public static syncReadPlans(plan: Plan) {
     InMemoryRepository.readPlans.set(plan.id.value, {

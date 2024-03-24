@@ -8,10 +8,6 @@ interface RequestModel {
   todoId: string
 }
 
-export interface RemoveTodoResponseModel {
-  id: IdentityObject
-}
-
 export class RemoveTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(private planRepository: PlanRepository) {}
 

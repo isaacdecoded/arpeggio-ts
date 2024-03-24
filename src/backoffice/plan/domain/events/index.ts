@@ -1,2 +1,3 @@
+export * from "./PlanCreatedDomainEvent"
 export * from "./PlanCompletedDomainEvent"
-export * from "./TodoCreatedDomainEvent"
+export * from "./TodoAddedDomainEvent"

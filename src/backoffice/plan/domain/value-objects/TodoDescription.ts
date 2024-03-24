@@ -5,7 +5,7 @@ export class TodoDescription extends ValueObject<string> {
     const MAX_LENGTH = 1200
     if (value.length > MAX_LENGTH) {
       throw new Error(
-        `The name exceeds the maximum length of ${MAX_LENGTH} characters.`,
+        `The description exceeds the maximum length of ${MAX_LENGTH} characters.`,
       )
     }
     super(value)
