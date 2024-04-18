@@ -8,7 +8,7 @@ export class CreatePlanPresenter
   constructor(public planIdCatcher: (id: string) => void) {}
 
   public async success(responseModel: CreatePlanResponseModel): Promise<void> {
-    const id = responseModel.id.value.toString()
+    const id = responseModel.planId
     this.planIdCatcher(id)
     console.table({
       AddTodoPresenter: `Plan with ID <${id}> successfully created.`,

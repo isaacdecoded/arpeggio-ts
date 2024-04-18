@@ -1,4 +1,3 @@
-import { IdentityObject } from "@core/domain/models"
 import { DomainEventBus } from "@core/domain/events"
 import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { Plan } from "../../domain/entities"
@@ -11,7 +10,7 @@ interface RequestModel {
 }
 
 export interface CreatePlanResponseModel {
-  id: IdentityObject
+  planId: string
 }
 
 export class CreatePlanUseCase implements UseCaseInputPort<RequestModel> {
@@ -30,7 +29,7 @@ export class CreatePlanUseCase implements UseCaseInputPort<RequestModel> {
       })
       await this.planRepository.save(plan)
       await this.domainEventBus.publish(plan.pullDomainEvents())
-      return this.outputPort.success({ id })
+      return this.outputPort.success({ planId: id.value })
     } catch (e) {
       return this.outputPort.failure(
         new PlanNotCreatedError((e as Error).message),

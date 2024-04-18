@@ -1,6 +1,6 @@
 import { IdentityObject } from "@core/domain/models"
 import { DomainEventBus } from "@core/domain/events"
-import { UseCaseInputPort } from "@core/application"
+import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { PlanRepository } from "../../domain/repositories"
 import { TodoNotCheckedError } from "../errors"
 
@@ -9,24 +9,34 @@ interface RequestModel {
   todoId: string
 }
 
+export interface CheckTodoResponseModel {
+  todoId: string
+}
+
 export class CheckTodoUseCase implements UseCaseInputPort<RequestModel> {
   constructor(
     private planRepository: PlanRepository,
     private domainEventBus: DomainEventBus,
+    private outputPort: UseCaseOutputPort<CheckTodoResponseModel>,
   ) {}
 
   public async interact({ planId, todoId }: RequestModel): Promise<void> {
     try {
       const plan = await this.planRepository.getById(new IdentityObject(planId))
       if (!plan) {
-        throw new TodoNotCheckedError(`Plan with ID <${planId}> doesn't exist`)
+        return this.outputPort.failure(
+          new TodoNotCheckedError(`Plan with ID <${planId}> doesn't exist`),
+        )
       }
       const id = new IdentityObject(todoId)
       plan.markTodoAsDone(id)
       await this.planRepository.save(plan)
       await this.domainEventBus.publish(plan.pullDomainEvents())
+      await this.outputPort.success({ todoId })
     } catch (e) {
-      throw new TodoNotCheckedError((e as Error).message)
+      await this.outputPort.failure(
+        new TodoNotCheckedError((e as Error).message),
+      )
     }
   }
 }
