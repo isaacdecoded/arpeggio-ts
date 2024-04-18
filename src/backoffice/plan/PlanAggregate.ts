@@ -9,10 +9,13 @@ import {
   CheckTodoController,
 } from "./adapters/controllers"
 import {
+  AddTodoPresenter,
+  CheckTodoPresenter,
   CreatePlanPresenter,
   FindPlansPresenter,
   GetPlanPresenter,
-  AddTodoPresenter,
+  RemoveTodoPresenter,
+  UpdateTodoPresenter,
 } from "./adapters/presenters"
 import {
   CreatePlanUseCase,
@@ -72,13 +75,17 @@ export class PlanAggregate {
       ),
     )
     this.updateTodoController = new UpdateTodoController(
-      new UpdateTodoUseCase(this.planRepository),
+      new UpdateTodoUseCase(this.planRepository, new UpdateTodoPresenter()),
     )
     this.removeTodoController = new RemoveTodoController(
-      new RemoveTodoUseCase(this.planRepository),
+      new RemoveTodoUseCase(this.planRepository, new RemoveTodoPresenter()),
     )
     this.checkTodoController = new CheckTodoController(
-      new CheckTodoUseCase(this.planRepository, domainEventBus),
+      new CheckTodoUseCase(
+        this.planRepository,
+        domainEventBus,
+        new CheckTodoPresenter(),
+      ),
     )
 
     domainEventBus.addSubscribers([

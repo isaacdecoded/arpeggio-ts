@@ -1,4 +1,4 @@
-import { UseCaseInputPort } from "@core/application"
+import { UseCaseInputPort, UseCaseOutputPort } from "@core/application"
 import { IdentityObject } from "@core/domain/models"
 import { PlanRepository } from "../../domain/repositories"
 import { TodoNotRemovedError } from "../errors"
@@ -8,20 +8,32 @@ interface RequestModel {
   todoId: string
 }
 
+export interface RemoveTodoResponseModel {
+  todoId: string
+}
+
 export class RemoveTodoUseCase implements UseCaseInputPort<RequestModel> {
-  constructor(private planRepository: PlanRepository) {}
+  constructor(
+    private planRepository: PlanRepository,
+    private outputPort: UseCaseOutputPort<RemoveTodoResponseModel>,
+  ) {}
 
   public async interact({ planId, todoId }: RequestModel): Promise<void> {
     try {
       const plan = await this.planRepository.getById(new IdentityObject(planId))
       if (!plan) {
-        throw new TodoNotRemovedError(`Plan with ID <${planId}> doesn't exist`)
+        return this.outputPort.failure(
+          new TodoNotRemovedError(`Plan with ID <${planId}> doesn't exist`),
+        )
       }
       const id = new IdentityObject(todoId)
       plan.removeTodo(id)
       await this.planRepository.save(plan)
+      await this.outputPort.success({ todoId })
     } catch (e) {
-      throw new TodoNotRemovedError((e as Error).message)
+      await this.outputPort.failure(
+        new TodoNotRemovedError((e as Error).message),
+      )
     }
   }
 }

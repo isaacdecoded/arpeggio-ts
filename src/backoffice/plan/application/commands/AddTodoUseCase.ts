@@ -11,7 +11,7 @@ interface RequestModel {
 }
 
 export interface AddTodoResponseModel {
-  id: IdentityObject
+  todoId: string
 }
 
 export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
@@ -33,7 +33,7 @@ export class AddTodoUseCase implements UseCaseInputPort<RequestModel> {
       plan.addTodo(id, new TodoDescription(description))
       await this.planRepository.save(plan)
       await this.domainEventBus.publish(plan.pullDomainEvents())
-      return this.outputPort.success({ id })
+      return this.outputPort.success({ todoId: id.value })
     } catch (e) {
       return this.outputPort.failure(
         new TodoNotAddedError((e as Error).message),

@@ -40,16 +40,10 @@ async function main() {
   await backofficeContext.planAggregate.getPlanController.execute({
     id: backofficeContext.planAggregate.caughtPlanId,
   })
-  try {
-    await backofficeContext.planAggregate.removeTodoController.execute({
-      planId: backofficeContext.planAggregate.caughtPlanId,
-      todoId: backofficeContext.planAggregate.caughtTodoId,
-    })
-  } catch (e) {
-    console.table({
-      RemoveTodoPresenter: (e as Error).message,
-    })
-  }
+  await backofficeContext.planAggregate.removeTodoController.execute({
+    planId: backofficeContext.planAggregate.caughtPlanId,
+    todoId: backofficeContext.planAggregate.caughtTodoId,
+  })
 }
 
 main()

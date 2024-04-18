@@ -8,7 +8,7 @@ export class AddTodoPresenter
   constructor(public todoIdCatcher: (id: string) => void) {}
 
   public async success(responseModel: AddTodoResponseModel): Promise<void> {
-    const id = responseModel.id.value.toString()
+    const id = responseModel.todoId
     console.table({
       AddTodoPresenter: `Todo with ID <${id}> successfully added.`,
     })
