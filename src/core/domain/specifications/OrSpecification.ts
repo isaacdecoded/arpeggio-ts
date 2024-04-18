@@ -1,16 +1,16 @@
 import { Specification } from "./Specification"
 
-export class OrSpecification<
-  EntityOrValueObject,
-> extends Specification<EntityOrValueObject> {
+export class OrSpecification<T> extends Specification<T> {
   constructor(
-    private spec1: Specification<EntityOrValueObject>,
-    private spec2: Specification<EntityOrValueObject>,
+    private spec1: Specification<T>,
+    private spec2: Specification<T>,
   ) {
     super()
   }
 
-  public isSatisfiedBy(t: EntityOrValueObject): boolean {
-    return this.spec1.isSatisfiedBy(t) || this.spec2.isSatisfiedBy(t)
+  public isSatisfiedBy(candidate: T): boolean {
+    return (
+      this.spec1.isSatisfiedBy(candidate) || this.spec2.isSatisfiedBy(candidate)
+    )
   }
 }
