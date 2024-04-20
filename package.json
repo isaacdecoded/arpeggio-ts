@@ -48,7 +48,6 @@
   },
   "_moduleAliases": {
     "@core": "dist/src/core",
-    "@backoffice": "dist/src/backoffice",
-    "@notifications": "dist/src/notifications"
+    "@backoffice": "dist/src/backoffice"
   }
 }

@@ -2,7 +2,7 @@ export abstract class DomainEvent {
   private readonly _occurringTime = new Date()
   constructor(
     protected readonly _name: string,
-    protected readonly _aggregateRootId: string | number,
+    protected readonly _aggregateRootId: string,
   ) {}
 
   get name() {

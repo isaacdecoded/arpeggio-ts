@@ -8,7 +8,7 @@ export class RemoveTodoPresenter
   public async success(responseModel: RemoveTodoResponseModel): Promise<void> {
     const id = responseModel.todoId
     console.table({
-      CheckTodoPresenter: `Todo with ID <${id}> successfully removed.`,
+      RemoveTodoPresenter: `Todo with ID <${id}> successfully removed.`,
     })
   }
 

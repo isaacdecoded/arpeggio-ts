@@ -8,7 +8,7 @@ export class UpdateTodoPresenter
   public async success(responseModel: UpdateTodoResponseModel): Promise<void> {
     const id = responseModel.todoId
     console.table({
-      CheckTodoPresenter: `Todo with ID <${id}> successfully updated.`,
+      UpdateTodoPresenter: `Todo with ID <${id}> successfully updated.`,
     })
   }
 
