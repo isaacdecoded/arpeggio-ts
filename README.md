@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="https://github.com/isaacdecoded/arpeggio/blob/main/misc/0-Arpeggio-on-TS.png" loading="lazy"/>
+</p>
+
 # ARPEGGIO ON TYPESCRIPT
 
-This is the Arpeggio coding template based on [TypeScript](https://www.typescriptlang.org/docs/).
+This is the [Arpeggio](https://github.com/isaacdecoded/arpeggio) coding template based on [TypeScript](https://www.typescriptlang.org/docs/).
 
 ### Requirements
 
@@ -38,13 +42,13 @@ Arpeggio on TypeScript keeps the codebase clean by including only the _module-al
 2. In `package.json`, include the same paths in the `_moduleAliases` object.
 3. In `jest.config.json`, include the same paths in the `moduleNameMapper` object.
 
-Additionally, Arpeggio includes a comprehensive suite of development and testing dependencies for coding styling, commit checking, and unit testing:
+Additionally, Arpeggio on TypeScript includes a comprehensive suite of development and testing dependencies for coding styling, commit checking, and unit testing:
 
-- Jest for unit tests
-- Commitlint for pre-commit hook checks
-- ESLint + lint-staged + prettier + Husky for code styling
-- nodemon for watching mode development
-- tslib for including the TypeScript helper functions during transpilation
+- [Jest](https://jestjs.io/es-ES/) for unit tests
+- [Commitlint](https://commitlint.js.org/) for pre-commit hook checks
+- [ESLint](https://eslint.org/), [lint-staged](https://github.com/lint-staged/lint-staged), [Prettier](https://prettier.io/), and [Husky](https://typicode.github.io/husky/) for code linting features
+- [nodemon](https://nodemon.io/) for hot reloading during code development
+- [tslib](https://www.npmjs.com/package/tslib) for including the TypeScript helper functions
 
 ## The Plan Concept example
 
