@@ -11,7 +11,7 @@ export class CreatePlanPresenter
     const id = responseModel.planId
     this.planIdCatcher(id)
     console.table({
-      AddTodoPresenter: `Plan with ID <${id}> successfully created.`,
+      CreatePlanPresenter: `Plan with ID <${id}> successfully created.`,
     })
   }
 

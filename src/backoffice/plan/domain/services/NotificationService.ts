@@ -1,17 +1,17 @@
 export interface PlanCreatedNotificationRequest {
-  planId: string | number
+  planId: string
   planName: string
   planCreatedAt: Date
 }
 
 export interface PlanCompletedNotificationRequest {
-  planId: string | number
+  planId: string
   planName: string
   planCompletedAt: Date
 }
 
 export interface TodoAddedNotificationRequest {
-  todoId: string | number
+  todoId: string
   todoDescription: string
   todoCreatedAt: Date
 }

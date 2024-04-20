@@ -11,8 +11,7 @@
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.js?$",
   "moduleNameMapper": {
     "@core/(.*)": "<rootDir>/dist/src/core/$1",
-    "@backoffice/(.*)": "<rootDir>/dist/src/backoffice/$1",
-    "@notifications/(.*)": "<rootDir>/dist/src/notifications/$1"
+    "@backoffice/(.*)": "<rootDir>/dist/src/backoffice/$1"
   },
   "setupFilesAfterEnv": ["<rootDir>/dist/tests/index.js"]
 }

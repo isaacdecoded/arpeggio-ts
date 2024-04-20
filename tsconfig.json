@@ -21,8 +21,7 @@
     "sourceMap": true,
     "paths": {
       "@core/*": ["core/*"],
-      "@backoffice/*": ["backoffice/*"],
-      "@notifications/*": ["notifications/*"]
+      "@backoffice/*": ["backoffice/*"]
     }
   },
   "exclude": ["coverage", "data", "dist", "node_modules"],
