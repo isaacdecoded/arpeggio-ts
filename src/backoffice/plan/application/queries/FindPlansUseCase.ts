@@ -33,8 +33,6 @@ export class FindPlansUseCase implements UseCaseInputPort<RequestModel> {
         filters: [],
         limit,
         offset,
-        selection: ["name"],
-        sort: { field: "createdAt", order: "desc" },
       }
       if (name) {
         criteria.filters.push({
