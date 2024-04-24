@@ -21,8 +21,8 @@ export interface Sort<T> {
 
 export interface Criteria<T> {
   filters: Filter<T>[]
-  selection?: (keyof T)[]
+  selections?: (keyof T)[]
+  sorts?: Sort<T>[]
   limit?: number
   offset?: number
-  sort?: Sort<T>
 }
